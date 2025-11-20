@@ -1,90 +1,56 @@
 <!DOCTYPE html>
-<html lang="es">
+<html>
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Panel del Docente</title>
-  <link rel="stylesheet" href="css/estilos.css">
+  <title>Subir archivos</title>
 </head>
 <body>
 
-  <h1>Panel del Docente</h1>
+  <h1>Subida de archivos</h1>
 
-  <!-- SUBIR ARCHIVOS -->
-  <section>
-    <h2>Subir nueva plantilla</h2>
-    <input type="file" id="archivo">
-    <button onclick="subirArchivo()">Subir</button>
-  </section>
+  <!-- FORM PARA SUBIR -->
+  <form id="uploadForm" enctype="multipart/form-data">
+    <input type="file" name="file" />
+    <button type="submit">Subir</button>
+  </form>
 
-  <!-- LISTAR Y BORRAR ARCHIVOS -->
-  <section>
-    <h2>Plantillas subidas</h2>
-    <ul id="lista"></ul>
-  </section>
+  <h2>Archivos subidos</h2>
+  <ul id="lista"></ul>
 
-<script>
-// convertir archivo a base64
-function toBase64(file) {
-  return new Promise(resolve => {
-    const reader = new FileReader();
-    reader.onload = () => resolve(reader.result);
-    reader.readAsDataURL(file);
-  });
-}
+  <script>
+    async function load() {
+      const res = await fetch("/api/list");
+      const files = await res.json();
 
-// subir archivo
-async function subirArchivo() {
-  const file = document.getElementById("archivo").files[0];
-  if (!file) return alert("Selecciona un archivo primero");
+      document.getElementById("lista").innerHTML = files
+        .map(f =>
+          `<li>
+            <a href="${f.url}" target="_blank">${f.pathname}</a>
+            <button onclick="borrar('${f.pathname}')">Borrar</button>
+          </li>`
+        )
+        .join("");
+    }
 
-  const base64 = await toBase64(file);
+    async function borrar(name) {
+      await fetch("/api/delete/" + name, { method: "DELETE" });
+      load();
+    }
 
-  const res = await fetch("/api/upload", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      filename: file.name,
-      content: base64.split(",")[1],
-    }),
-  });
+    document.getElementById("uploadForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const formData = new FormData(e.target);
 
-  const data = await res.json();
-  alert("Archivo subido");
+      await fetch("/api/upload", {
+        method: "POST",
+        body: formData
+      });
 
-  cargarLista();
-}
+      load();
+    });
 
-// borrar archivo
-async function borrarArchivo(url) {
-  const ok = confirm("¿Seguro que quieres borrar este archivo?");
-  if (!ok) return;
-
-  await fetch("/api/delete", {
-    method: "DELETE",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ url })
-  });
-
-  cargarLista();
-}
-
-// cargar lista de archivos
-async function cargarLista() {
-  const res = await fetch("/api/list");
-  const archivos = await res.json();
-
-  document.getElementById("lista").innerHTML =
-    archivos.map(f => `
-      <li>
-        <a href="${f.url}" target="_blank">${f.pathname}</a>
-        <button onclick="borrarArchivo('${f.url}')">Borrar</button>
-      </li>
-    `).join("");
-}
-
-cargarLista();
-</script>
+    load();
+  </script>
 
 </body>
 </html>
