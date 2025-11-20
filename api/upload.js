@@ -19,10 +19,11 @@ export default async function handler(req, res) {
     }
 
     // Verifica token disponible (mejor logging para debug)
-    if (!process.env.BLOB_READ_WRITE_TOKEN) {
-      console.error("Missing BLOB_READ_WRITE_TOKEN env var");
-      return res.status(500).json({ error: "Server misconfiguration: missing BLOB_READ_WRITE_TOKEN" });
+    if (!process.env.VERCEL_BLOB_READ_WRITE_TOKEN) {
+      console.error("Missing VERCEL_BLOB_READ_WRITE_TOKEN env var");
+      return res.status(500).json({ error: "Server misconfiguration: missing VERCEL_BLOB_READ_WRITE_TOKEN" });
     }
+
 
     // req es un stream -> pasamos directamente a put
     const blob = await put(name, req, {
@@ -38,3 +39,4 @@ export default async function handler(req, res) {
     res.status(500).json({ error: err.toString() });
   }
 }
+
