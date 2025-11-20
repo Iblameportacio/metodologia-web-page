@@ -1,23 +1,32 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <title>Subir trabajos - Profe Gian</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel del Profesor - Subir Trabajos</title>
+  <link rel="stylesheet" href="css/estilos.css">
 </head>
+
 <body>
 
   <h1>Panel del Profesor</h1>
+  <p>Aquí puedes subir trabajos en PDF que aparecerán automáticamente en la página de inicio.</p>
 
-  <h2>Subir PDF</h2>
-
+  <!-- FORMULARIO DE SUBIDA -->
   <form id="formUpload">
-    <input type="file" id="fileInput" accept="application/pdf" />
-    <button type="submit">Subir</button>
+    <input type="file" id="fileInput" accept="application/pdf">
+    <button type="submit">Subir PDF</button>
   </form>
 
-  <h2>Archivos subidos</h2>
+  <hr>
+
+  <h2>Archivos Subidos</h2>
   <ul id="lista"></ul>
 
+  <h2>Vista Previa</h2>
+  <div class="works-grid"></div>
+
+  <!-- SCRIPT DE MANEJO DE ARCHIVOS -->
   <script>
     document.getElementById("formUpload").addEventListener("submit", async (e) => {
       e.preventDefault();
@@ -25,6 +34,7 @@
       const file = document.getElementById("fileInput").files[0];
       if (!file) return alert("Selecciona un archivo");
 
+      // Enviar el archivo como stream
       const res = await fetch("/api/upload", {
         method: "PUT",
         headers: {
@@ -35,36 +45,50 @@
       });
 
       if (!res.ok) {
-        const text = await res.text().catch(()=>null);
+        const text = await res.text().catch(() => null);
+        console.error("Upload failed:", res.status, text);
         return alert("Error subiendo archivo: " + (text || res.status));
       }
 
       alert("Archivo subido correctamente");
-      load();
+      await load();
     });
 
     async function load() {
       const res = await fetch("/api/list");
+      if (!res.ok) {
+        const txt = await res.text().catch(()=>null);
+        console.error("List failed:", res.status, txt);
+        return document.getElementById("lista").innerText = "Error cargando lista";
+      }
+
       const files = await res.json();
 
-      document.getElementById("lista").innerHTML = files
-        .map(f => {
-          const url = f.url || f.href;
-          return `<li>
-            <a href="${url}" target="_blank">${f.pathname}</a>
-            <button onclick="eliminar('${f.pathname}')">Eliminar</button>
-          </li>`;
-        })
-        .join("");
+      // Renderizar lista
+      document.getElementById("lista").innerHTML = files.map(f => {
+        const url = f.url || f.href || (f.pathname ? `https://${location.hostname}${f.pathname}` : '');
+        const name = f.pathname || f.name || f.filename || url.split('/').pop();
+
+        return `
+          <li>
+            <a href="${url}" target="_blank" rel="noopener noreferrer">${name}</a>
+            <button onclick="eliminar('${encodeURIComponent(name)}')">Eliminar</button>
+          </li>
+        `;
+      }).join("");
+
+      renderWorksGrid(files);
     }
 
-    async function eliminar(pathname) {
-      const res = await fetch("/api/delete?path=" + encodeURIComponent(pathname), {
+    async function eliminar(fileNameEncoded) {
+      const fileName = decodeURIComponent(fileNameEncoded);
+      const res = await fetch("/api/delete?path=" + encodeURIComponent(fileName), {
         method: "DELETE",
       });
 
       if (!res.ok) {
         const txt = await res.text().catch(()=>null);
+        console.error("Delete failed:", res.status, txt);
         return alert("Error eliminando archivo");
       }
 
@@ -72,6 +96,26 @@
       load();
     }
 
+    function renderWorksGrid(files) {
+      const grid = document.querySelector(".works-grid");
+      if (!grid) return;
+
+      grid.innerHTML = files.map(f => {
+        const url = f.url || f.href || (f.pathname ? `https://${location.hostname}${f.pathname}` : '');
+        const name = f.pathname || f.name || f.filename || url.split('/').pop();
+
+        return `
+          <div class="work-item">
+            <a href="${url}" target="_blank" rel="noopener noreferrer">${name}</a>
+            <div class="pdf-preview" style="margin-top:6px;">
+              <a href="${url}" target="_blank">Abrir PDF</a>
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    // Cargar archivos al abrir la página
     load();
   </script>
 
