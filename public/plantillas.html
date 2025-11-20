@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Descarga plantillas de investigación gratuitas en formato PDF para tu institución.">
+    <meta name="keywords" content="plantillas, investigación, descargar, PDF, académicas, universidad, institución">
+    <title>Plantillas Disponibles - Metodología de Investigación</title>
+    <link rel="stylesheet" href="css/estilos.css">
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <img src="images/logo.png" alt="Logo Plantillas de Investigación" class="logo-header"
+                onclick="window.location.href='/index.html'" style="cursor: pointer;">
+            <button class="theme-toggle" onclick="toggleTheme()" aria-label="Cambiar tema">
+                <span class="theme-icon">🌙</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Animación de fondo -->
+    <div class="background-animation" id="backgroundAnimation"></div>
+
+    <!-- Contenido principal -->
+    <main class="contenedor">
+        <h3 class="fade-in highlight-text">Plantillas Disponibles para tu Investigación</h3>
+
+        <p class="fade-in"
+            style="font-size: 1.1rem; color: var(--text-secondary); margin: 1rem 0 2rem; max-width: 600px;">
+            Selecciona y descarga las plantillas que necesites
+        </p>
+
+        <!-- Grid de plantillas -->
+        <div class="plantillas-grid fade-in">
+            <div class="plantilla-card">
+                <h4 style="color: var(--accent-color); margin-bottom: 1rem;">Marco de Antecedentes</h4>
+                <p style="color: var(--text-secondary); margin-bottom: 1.5rem; font-size: 0.95rem;">
+                    Plantilla esencial para marco de antecedentes.
+                </p>
+                <button class="botonplantillas" onclick="descargarPDF('/plantillas/Marco de antecedentes.docx')">
+                    Descargar Plantilla
+                </button>
+            </div>
+
+            <div class="plantilla-card">
+                <h4 style="color: var(--accent-color); margin-bottom: 1rem;">Marco Metodológico</h4>
+                <p style="color: var(--text-secondary); margin-bottom: 1.5rem; font-size: 0.95rem;">
+                    Ideal para marco metodológico
+                </p>
+                <button class="botonplantillas" onclick="descargarPDF('/plantillas/Marco metodologico.docx')">
+                    Descargar Plantilla
+                </button>
+            </div>
+
+            <div class="plantilla-card">
+                <h4 style="color: var(--accent-color); margin-bottom: 1rem;">Instrumento de Encuesta</h4>
+                <p style="color: var(--text-secondary); margin-bottom: 1.5rem; font-size: 0.95rem;">
+                    Ideal para el instrumento de tipo encuesta
+                </p>
+                <button class="botonplantillas" onclick="descargarPDF('/plantillas/Modelo Instrumentos encuesta.docx')">
+                    Descargar Plantilla
+                </button>
+            </div>
+
+            <div class="plantilla-card">
+                <h4 style="color: var(--accent-color); margin-bottom: 1rem;">Instrumento de Entrevista</h4>
+                <p style="color: var(--text-secondary); margin-bottom: 1.5rem; font-size: 0.95rem;">
+                    Ideal para instrumentos de tipo entrevista
+                </p>
+                <button class="botonplantillas"
+                    onclick="descargarPDF('/plantillas/Modelo Instrumentos entrevista.docx')">
+                    Descargar Plantilla
+                </button>
+            </div>
+
+            <div class="plantilla-card">
+                <h4 style="color: var(--accent-color); margin-bottom: 1rem;">Proyecto Completo</h4>
+                <p style="color: var(--text-secondary); margin-bottom: 1.5rem; font-size: 0.95rem;">
+                    Ideal para visualizar un proyecto completo
+                </p>
+                <button class="botonplantillas"
+                    onclick="descargarPDF('/plantillas/plantilla para proyecto completo.docx')">
+                    Descargar Plantilla
+                </button>
+            </div>
+        </div>
+
+        <button class="botonp fade-in" onclick="window.location.href='index.html'" style="margin-top: 2rem;">
+            ← Volver al Inicio
+        </button>
+    </main>
+
+    <script src="js/plantillas.js"></script>
+</body>
+
+</html>
