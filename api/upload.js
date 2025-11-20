@@ -28,7 +28,8 @@ export default async function handler(req, res) {
     // req es un stream -> pasamos directamente a put
     const blob = await put(name, req, {
       access: "public",
-      token: process.env.BLOB_READ_WRITE_TOKEN,
+      token: process.env.VERCEL_BLOB_READ_WRITE_TOKEN,
+
       // (opcional) pathname: 'folder/' + name
     });
 
@@ -39,4 +40,5 @@ export default async function handler(req, res) {
     res.status(500).json({ error: err.toString() });
   }
 }
+
 
