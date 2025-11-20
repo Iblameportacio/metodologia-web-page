@@ -1,15 +1,23 @@
 import { put } from "@vercel/blob";
 
 export default async function handler(req, res) {
-  if (req.method !== "POST") {
-    return res.status(405).json({ error: "Method not allowed" });
+  try {
+    const file = req.body;
+    const name = req.headers["x-file-name"];
+
+    const blob = await put(name, file, {
+      access: "public",
+      token: process.env.BLOB_READ_WRITE_TOKEN
+    });
+
+    res.status(200).json({ url: blob.url });
+  } catch (err) {
+    res.status(500).json({ error: err.toString() });
   }
-
-  const { filename, content } = req.body;
-
-  const blob = await put(filename, Buffer.from(content, "base64"), {
-    access: "public",
-  });
-
-  res.status(200).json({ url: blob.url });
 }
+
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};
