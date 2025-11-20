@@ -12,19 +12,25 @@ document.getElementById("formUpload").addEventListener("submit", async (e) => {
   const file = document.getElementById("fileInput").files[0];
   if (!file) return alert("Selecciona un archivo");
 
-  const formData = new FormData();
-  formData.append("file", file);
+  try {
+    const res = await fetch("/api/upload", {
+      method: "POST",
+      headers: {
+        "x-file-name": file.name
+      },
+      body: file // <-- IMPORTANTE: no uses FormData
+    });
 
-  const res = await fetch("/api/upload", {
-    method: "POST",
-    body: formData
-  });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error);
 
-  if (!res.ok) return alert("Error subiendo archivo");
+    alert("Archivo subido correctamente");
+    load();
 
-  alert("Archivo subido correctamente");
-
-  load();
+  } catch (err) {
+    console.error(err);
+    alert("Error subiendo archivo");
+  }
 });
 
 
@@ -41,13 +47,20 @@ async function load() {
 }
 
 async function eliminar(path) {
-  const res = await fetch("/api/delete?path=" + encodeURIComponent(path), {
-    method: "DELETE"
-  });
+  try {
+    const res = await fetch("/api/delete?path=" + encodeURIComponent(path), {
+      method: "DELETE"
+    });
 
-  if (!res.ok) return alert("Error eliminando archivo");
-  alert("Archivo eliminado");
-  load();
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error);
+
+    alert("Archivo eliminado");
+    load();
+
+  } catch (err) {
+    alert("Error eliminando archivo");
+  }
 }
 
 load();
