@@ -1,134 +1,25 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Plantillas de investigación profesionales - Descarga plantillas gratuitas para tus proyectos de investigación">
+  <meta name="description"
+    content="Plantillas de investigación profesionales - Descarga plantillas gratuitas para tus proyectos de investigación">
   <meta name="keywords" content="plantillas, investigación, académicas, descargar, PDF, trabajos, proyectos">
   <title>Metodología de Investigación - Inicio</title>
   <link rel="stylesheet" href="css/estilos.css">
   <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
-  <style>
-    /* Estilos específicos para la sección de trabajos destacados (manteniendo los anteriores) */
-    .featured-works-section {
-      background: var(--bg-secondary);
-      padding: 4rem 1rem;
-      margin-top: 4rem;
-      border-radius: var(--border-radius);
-      box-shadow: var(--shadow-lg);
-      text-align: center;
-      max-width: 1200px;
-      width: 100%;
-    }
-
-    .featured-works-section h2 {
-      font-size: clamp(1.8rem, 4vw, 2.5rem);
-      color: var(--text-primary);
-      margin-bottom: 2.5rem;
-      position: relative;
-      padding-bottom: 15px;
-    }
-
-    .featured-works-section h2::after {
-      content: '';
-      position: absolute;
-      left: 50%;
-      bottom: 0;
-      transform: translateX(-50%);
-      width: 80px;
-      height: 4px;
-      background: var(--accent-color);
-      border-radius: 2px;
-    }
-
-    .works-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 2rem;
-      justify-content: center;
-      margin-top: 2rem;
-    }
-
-    .work-card {
-      background: var(--bg-primary);
-      border: 1px solid var(--border-color);
-      border-radius: var(--border-radius);
-      padding: 1.5rem;
-      transition: var(--transition);
-      box-shadow: var(--shadow);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      min-height: 280px; /* Uniform height for cards */
-      justify-content: space-between;
-    }
-
-    .work-card:hover {
-      transform: translateY(-8px);
-      box-shadow: var(--shadow-lg);
-      border-color: var(--accent-color);
-    }
-
-    .work-card .icon {
-      font-size: 3rem;
-      margin-bottom: 1rem;
-      color: var(--accent-color);
-    }
-
-    .work-card h3 {
-      font-size: 1.3rem;
-      color: var(--text-primary);
-      margin-bottom: 0.8rem;
-    }
-
-    .work-card p {
-      font-size: 0.95rem;
-      color: var(--text-secondary);
-      margin-bottom: 1.5rem;
-      flex-grow: 1; /* Allows paragraph to take available space */
-    }
-
-    .work-card .view-button { /* Cambiado de .download-button a .view-button */
-      background: linear-gradient(135deg, #6b46c1, #3182ce);
-      color: white;
-      border: none;
-      padding: 0.8rem 1.5rem;
-      font-size: 0.95rem;
-      font-weight: 600;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: var(--transition);
-      box-shadow: var(--shadow);
-      text-decoration: none; /* Para etiquetas de anclaje estilizadas como botones */
-      display: inline-block; /* Asegura que el padding y el ancho funcionen */
-    }
-
-    .work-card .view-button:hover {
-      transform: translateY(-2px);
-      box-shadow: var(--shadow-lg);
-      opacity: 0.9;
-    }
-
-    @media (max-width: 768px) {
-      .featured-works-section {
-        padding: 3rem 0.5rem;
-      }
-      .works-grid {
-        grid-template-columns: 1fr;
-      }
-      .work-card {
-        min-height: auto;
-      }
-    }
-  </style>
 </head>
+
 <body>
+  <!-- Preloader -->
   <div class="preloader" id="preloader">
     <div class="spinner"></div>
     <p>Cargando...</p>
   </div>
 
+  <!-- Header -->
   <header class="header">
     <div class="header-content">
       <img src="images/logo.png" alt="Logo Plantillas de Investigación" class="logo-header">
@@ -138,14 +29,19 @@
     </div>
   </header>
 
+  <!-- Animación de fondo -->
   <div class="background-animation" id="backgroundAnimation"></div>
 
+  <!-- Contenido principal -->
   <main class="contenedor">
     <h1 class="fade-in">Bienvenido a la página de</h1>
     <h1 class="fade-in highlight-text">Metodología de la Investigación</h1>
+
     <p class="fade-in" style="font-size: 1.2rem; color: var(--text-secondary); margin: 2rem 0; max-width: 600px;">
-      Descubre nuestra colección de plantillas profesionales diseñadas para facilitar tus proyectos de investigación académica en nuestra institución.
+      Descubre nuestra colección de plantillas profesionales diseñadas para facilitar tus proyectos de investigación
+      académica en nuestra institución.
     </p>
+
     <button class="botonp fade-in" onclick="window.location.href='plantillas.html'">
       Ver Plantillas Disponibles
     </button>
@@ -153,142 +49,52 @@
       Ver perfil del docente
     </button>
 
+    <!-- Sección de trabajos destacados -->
     <section class="featured-works-section fade-in">
       <h2>🏆 Mejores Trabajos de Investigación</h2>
-      <p style="color: var(--text-secondary); margin-bottom: 2rem; max-width: 700px; margin-left: auto; margin-right: auto;">
-        Explora los proyectos más destacados de nuestra institución de los años 2023 y 2024. Estos trabajos representan la excelencia académica y la innovación.
+      <p
+        style="color: var(--text-secondary); margin-bottom: 2rem; max-width: 700px; margin-left: auto; margin-right: auto;">
+        Explora los proyectos más destacados de nuestra institución de los años 2023 y 2024. Estos trabajos representan
+        la excelencia académica y la innovación.
       </p>
-      
+
       <div class="works-grid">
         <div class="work-card">
           <span class="icon">🔬</span>
           <h3>Estudio de Impacto Ambiental Urbano (2023)</h3>
-          <p>Análisis de la calidad del aire y sus efectos en la salud en áreas urbanas de la región, destacando soluciones sostenibles.</p>
+          <p>Análisis de la calidad del aire y sus efectos en la salud en áreas urbanas de la región, destacando
+            soluciones sostenibles.</p>
           <a href="/docs/trabajo_2023_1.pdf" target="_blank" rel="noopener noreferrer" class="view-button">Ver PDF</a>
         </div>
 
         <div class="work-card">
           <span class="icon">📚</span>
           <h3>Innovación Pedagógica en Educación Superior (2023)</h3>
-          <p>Investigación sobre nuevas metodologías de enseñanza y aprendizaje aplicadas en programas universitarios.</p>
+          <p>Investigación sobre nuevas metodologías de enseñanza y aprendizaje aplicadas en programas universitarios.
+          </p>
           <a href="/docs/trabajo_2023_2.pdf" target="_blank" rel="noopener noreferrer" class="view-button">Ver PDF</a>
         </div>
 
         <div class="work-card">
           <span class="icon">💻</span>
           <h3>Desarrollo de IA para Optimización Logística (2024)</h3>
-          <p>Aplicación de algoritmos de inteligencia artificial para mejorar la eficiencia en cadenas de suministro locales.</p>
+          <p>Aplicación de algoritmos de inteligencia artificial para mejorar la eficiencia en cadenas de suministro
+            locales.</p>
           <a href="/docs/trabajo_2024_1.pdf" target="_blank" rel="noopener noreferrer" class="view-button">Ver PDF</a>
         </div>
 
         <div class="work-card">
           <span class="icon">🌱</span>
           <h3>Agricultura Sostenible y Biotecnología (2024)</h3>
-          <p>Estudio sobre técnicas biotecnológicas para el cultivo de alimentos orgánicos y su impacto en la sostenibilidad.</p>
+          <p>Estudio sobre técnicas biotecnológicas para el cultivo de alimentos orgánicos y su impacto en la
+            sostenibilidad.</p>
           <a href="/docs/trabajo_2024_2.pdf" target="_blank" rel="noopener noreferrer" class="view-button">Ver PDF</a>
         </div>
       </div>
     </section>
-
   </main>
 
-  <script>
-    // Función para cambiar entre modo claro y oscuro
-    function toggleTheme() {
-      const html = document.documentElement;
-      const themeIcon = document.querySelector('.theme-icon');
-      const themeText = document.querySelector('.theme-text');
-      
-      if (html.getAttribute('data-theme') === 'dark') {
-        html.removeAttribute('data-theme');
-        themeIcon.textContent = '🌙';
-        themeText.textContent = 'Modo Oscuro';
-        localStorage.setItem('theme', 'light');
-      } else {
-        html.setAttribute('data-theme', 'dark');
-        themeIcon.textContent = '☀️';
-        themeText.textContent = 'Modo Claro';
-        localStorage.setItem('theme', 'dark');
-      }
-    }
-
-    // Cargar tema guardado
-    function loadTheme() {
-      const savedTheme = localStorage.getItem('theme');
-      const html = document.documentElement;
-      const themeIcon = document.querySelector('.theme-icon');
-      const themeText = document.querySelector('.theme-text');
-      
-      if (savedTheme === 'dark') {
-        html.setAttribute('data-theme', 'dark');
-        themeIcon.textContent = '☀️';
-      } else {
-        html.removeAttribute('data-theme');
-        themeIcon.textContent = '🌙';
-      }
-    }
-
-    // Crear animación de partículas de fondo
-    function createBackgroundAnimation() {
-      const container = document.getElementById('backgroundAnimation');
-      const particleCount = 20; // Increased particle count for a denser effect
-      
-      for (let i = 0; i < particleCount; i++) {
-        const particle = document.createElement('div');
-        particle.className = 'particle';
-        
-        // Posición aleatoria
-        particle.style.left = Math.random() * 100 + '%';
-        particle.style.top = Math.random() * 100 + '%';
-        particle.style.width = (Math.random() * 5 + 3) + 'px'; // Slightly larger particles
-        particle.style.height = particle.style.width;
-        
-        // Animación con delay aleatorio
-        particle.style.animationDelay = Math.random() * 8 + 's'; // Longer delay range
-        particle.style.animationDuration = (Math.random() * 5 + 6) + 's'; // Longer animation duration
-        
-        container.appendChild(particle);
-      }
-    }
-
-    // Inicializar cuando se carga la página
-    document.addEventListener('DOMContentLoaded', function() {
-      // Hide preloader
-      const preloader = document.getElementById('preloader');
-      preloader.style.opacity = '0';
-      setTimeout(() => {
-        preloader.style.display = 'none';
-      }, 500); // Wait for fade-out transition
-
-      loadTheme();
-      createBackgroundAnimation();
-      
-      // Añadir clase fade-in con delay para efecto escalonado
-      const elements = document.querySelectorAll('.fade-in');
-      elements.forEach((el, index) => {
-        el.style.animationDelay = (index * 0.2) + 's';
-        el.classList.add('animated'); // Add class to trigger animation
-      });
-    });
-
-    // Detectar preferencia de sistema para modo oscuro
-    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      if (!localStorage.getItem('theme')) {
-        document.documentElement.setAttribute('data-theme', 'dark');
-        localStorage.setItem('theme', 'dark');
-      }
-    }
-
-    // Listener para cambios en la preferencia del sistema
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
-      if (!localStorage.getItem('theme')) {
-        if (e.matches) {
-          document.documentElement.setAttribute('data-theme', 'dark');
-        } else {
-          document.documentElement.removeAttribute('data-theme');
-        }
-      }
-    });
-  </script>
+  <script src="js/main.js"></script>
 </body>
+
 </html>
