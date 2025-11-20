@@ -1,56 +1,54 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8">
-  <title>Subir archivos</title>
-</head>
-<body>
+<form id="formUpload">
+  <input type="file" id="fileInput" />
+  <button type="submit">Subir</button>
+</form>
 
-  <h1>Subida de archivos</h1>
+<ul id="lista"></ul>
 
-  <!-- FORM PARA SUBIR -->
-  <form id="uploadForm" enctype="multipart/form-data">
-    <input type="file" name="file" />
-    <button type="submit">Subir</button>
-  </form>
+<script>
+document.getElementById("formUpload").addEventListener("submit", async (e) => {
+  e.preventDefault();
 
-  <h2>Archivos subidos</h2>
-  <ul id="lista"></ul>
+  const file = document.getElementById("fileInput").files[0];
+  if (!file) return alert("Selecciona un archivo");
 
-  <script>
-    async function load() {
-      const res = await fetch("/api/list");
-      const files = await res.json();
+  const formData = new FormData();
+  formData.append("file", file);
 
-      document.getElementById("lista").innerHTML = files
-        .map(f =>
-          `<li>
-            <a href="${f.url}" target="_blank">${f.pathname}</a>
-            <button onclick="borrar('${f.pathname}')">Borrar</button>
-          </li>`
-        )
-        .join("");
-    }
+  const res = await fetch("/api/upload", {
+    method: "POST",
+    body: formData
+  });
 
-    async function borrar(name) {
-      await fetch("/api/delete/" + name, { method: "DELETE" });
-      load();
-    }
+  if (!res.ok) return alert("Error subiendo archivo");
 
-    document.getElementById("uploadForm").addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const formData = new FormData(e.target);
+  alert("Archivo subido correctamente");
 
-      await fetch("/api/upload", {
-        method: "POST",
-        body: formData
-      });
+  load();
+});
 
-      load();
-    });
 
-    load();
-  </script>
+async function load() {
+  const res = await fetch("/api/list");
+  const files = await res.json();
 
-</body>
-</html>
+  document.getElementById("lista").innerHTML = files
+    .map(f => `<li>
+        <a href="${f.url}" target="_blank">${f.pathname}</a>
+        <button onclick="eliminar('${f.pathname}')">Eliminar</button>
+    </li>`)
+    .join("");
+}
+
+async function eliminar(path) {
+  const res = await fetch("/api/delete?path=" + encodeURIComponent(path), {
+    method: "DELETE"
+  });
+
+  if (!res.ok) return alert("Error eliminando archivo");
+  alert("Archivo eliminado");
+  load();
+}
+
+load();
+</script>
