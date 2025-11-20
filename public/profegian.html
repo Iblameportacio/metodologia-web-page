@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel del Docente</title>
+  <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+
+  <h1>Panel del Docente</h1>
+
+  <!-- SUBIR ARCHIVOS -->
+  <section>
+    <h2>Subir nueva plantilla</h2>
+    <input type="file" id="archivo">
+    <button onclick="subirArchivo()">Subir</button>
+  </section>
+
+  <!-- LISTAR Y BORRAR ARCHIVOS -->
+  <section>
+    <h2>Plantillas subidas</h2>
+    <ul id="lista"></ul>
+  </section>
+
+<script>
+// convertir archivo a base64
+function toBase64(file) {
+  return new Promise(resolve => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.readAsDataURL(file);
+  });
+}
+
+// subir archivo
+async function subirArchivo() {
+  const file = document.getElementById("archivo").files[0];
+  if (!file) return alert("Selecciona un archivo primero");
+
+  const base64 = await toBase64(file);
+
+  const res = await fetch("/api/upload", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      filename: file.name,
+      content: base64.split(",")[1],
+    }),
+  });
+
+  const data = await res.json();
+  alert("Archivo subido");
+
+  cargarLista();
+}
+
+// borrar archivo
+async function borrarArchivo(url) {
+  const ok = confirm("¿Seguro que quieres borrar este archivo?");
+  if (!ok) return;
+
+  await fetch("/api/delete", {
+    method: "DELETE",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ url })
+  });
+
+  cargarLista();
+}
+
+// cargar lista de archivos
+async function cargarLista() {
+  const res = await fetch("/api/list");
+  const archivos = await res.json();
+
+  document.getElementById("lista").innerHTML =
+    archivos.map(f => `
+      <li>
+        <a href="${f.url}" target="_blank">${f.pathname}</a>
+        <button onclick="borrarArchivo('${f.url}')">Borrar</button>
+      </li>
+    `).join("");
+}
+
+cargarLista();
+</script>
+
+</body>
+</html>
