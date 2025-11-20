@@ -1,5 +1,11 @@
 import { put } from "@vercel/blob";
 
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};
+
 export default async function handler(req, res) {
   try {
     const name = req.headers["x-file-name"];
@@ -10,18 +16,12 @@ export default async function handler(req, res) {
 
     const blob = await put(name, req, {
       access: "public",
-      token: process.env.BLOB_READ_WRITE_TOKEN,
+      token: process.env.VERCEL_BLOB_READ_WRITE_TOKEN,
     });
 
-    res.status(200).json({ url: blob.url });
+    res.status(200).json(blob);
   } catch (err) {
     console.error("UPLOAD ERROR:", err);
     res.status(500).json({ error: err.toString() });
   }
 }
-
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
