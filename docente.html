@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,278 +9,50 @@
     <title>Perfil del Docente</title>
     <link rel="stylesheet" href="css/estilos.css">
     <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
-    <style>
-        /* Estilos específicos para la página del docente */
-        .profile-section {
-            background: var(--bg-secondary);
-            padding: 3rem 2rem;
-            margin-top: 3rem;
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow-lg);
-            text-align: center;
-            max-width: 1000px;
-            width: 100%;
-        }
-
-        .profile-header {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 2rem;
-            margin-bottom: 3rem;
-        }
-
-        .profile-images {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 2rem;
-            flex-wrap: wrap;
-        }
-
-        .profile-image {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 4px solid var(--accent-color);
-            box-shadow: var(--shadow-lg);
-            transition: var(--transition);
-        }
-
-        .profile-image:hover {
-            transform: scale(1.05);
-            box-shadow: 0 15px 25px rgba(0,0,0,0.2);
-        }
-
-        .institution-logo {
-            width: 120px;
-            height: 120px;
-            border-radius: var(--border-radius);
-            border: 3px solid var(--border-color);
-            background: var(--bg-primary);
-            padding: 10px;
-        }
-
-        .profile-content {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-
-        .info-card {
-            background: var(--bg-primary);
-            border: 1px solid var(--border-color);
-            border-radius: var(--border-radius);
-            padding: 2rem;
-            text-align: left;
-            transition: var(--transition);
-            box-shadow: var(--shadow);
-        }
-
-        .info-card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-lg);
-            border-color: var(--accent-color);
-        }
-
-        .info-card h3 {
-            color: var(--accent-color);
-            font-size: 1.3rem;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .info-card h3 .icon {
-            font-size: 1.5rem;
-        }
-
-        .info-card p, .info-card ul {
-            color: var(--text-secondary);
-            line-height: 1.6;
-            margin-bottom: 1rem;
-        }
-
-        .info-card ul {
-            padding-left: 1.5rem;
-        }
-
-        .info-card li {
-            margin-bottom: 0.5rem;
-        }
-
-        .contact-info {
-            display: flex;
-            flex-direction: column;
-            gap: 0.8rem;
-        }
-
-        .contact-item {
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            color: var(--text-secondary);
-            transition: var(--transition);
-            padding: 0.5rem;
-            border-radius: 8px;
-        }
-
-        .contact-item:hover {
-            background: var(--bg-secondary);
-            color: var(--accent-color);
-        }
-
-        .contact-item .icon {
-            color: var(--accent-color);
-            font-size: 1.2rem;
-            width: 20px;
-            text-align: center;
-        }
-
-        .back-button {
-            background: linear-gradient(135deg, #6b46c1, #3182ce);
-            color: white;
-            border: none;
-            padding: 1rem 2rem;
-            font-size: 1.1rem;
-            font-weight: 600;
-            border-radius: var(--border-radius);
-            cursor: pointer;
-            transition: var(--transition);
-            text-decoration: none;
-            display: inline-block;
-            margin-top: 2rem;
-            box-shadow: var(--shadow);
-        }
-
-        .back-button:hover {
-            transform: translateY(-3px);
-            box-shadow: var(--shadow-lg);
-        }
-
-        .achievements-section {
-            background: var(--bg-primary);
-            border: 1px solid var(--border-color);
-            border-radius: var(--border-radius);
-            padding: 2rem;
-            margin-top: 2rem;
-            text-align: center;
-        }
-
-        .achievements-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-            margin-top: 1.5rem;
-        }
-
-        .achievement-item {
-            background: var(--bg-secondary);
-            padding: 1.5rem;
-            border-radius: var(--border-radius);
-            border: 1px solid var(--border-color);
-            transition: var(--transition);
-        }
-
-        .achievement-item:hover {
-            transform: translateY(-3px);
-            border-color: var(--accent-color);
-        }
-
-        .achievement-number {
-            font-size: 2rem;
-            font-weight: bold;
-            color: var(--accent-color);
-            display: block;
-            margin-bottom: 0.5rem;
-        }
-
-        .achievement-label {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-        }
-
-        @media (max-width: 768px) {
-            .profile-section {
-                padding: 2rem 1rem;
-                margin-top: 2rem;
-            }
-            
-            .profile-images {
-                flex-direction: column;
-                gap: 1.5rem;
-            }
-            
-            .profile-image {
-                width: 120px;
-                height: 120px;
-            }
-            
-            .institution-logo {
-                width: 100px;
-                height: 100px;
-            }
-            
-            .profile-content {
-                grid-template-columns: 1fr;
-                gap: 1.5rem;
-            }
-            
-            .info-card {
-                padding: 1.5rem;
-            }
-            
-            .achievements-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        @media (max-width: 480px) {
-            .profile-header {
-                gap: 1.5rem;
-            }
-            
-            .achievements-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
 </head>
+
 <body>
+    <!-- Preloader -->
     <div class="preloader" id="preloader">
         <div class="spinner"></div>
         <p>Cargando...</p>
     </div>
 
+    <!-- Header -->
     <header class="header">
         <div class="header-content">
-            <img src="images/logo.png" alt="Logo Institucional" class="logo-header" onclick="window.location.href='index.html'" style="cursor: pointer;">
+            <img src="images/logo.png" alt="Logo Institucional" class="logo-header"
+                onclick="window.location.href='/index.html'" style="cursor: pointer;">
             <button class="theme-toggle" onclick="toggleTheme()" aria-label="Cambiar tema">
                 <span class="theme-icon">🌙</span>
-                <span class="theme-text"></span>
             </button>
         </div>
     </header>
 
+    <!-- Animación de fondo -->
     <div class="background-animation" id="backgroundAnimation"></div>
 
+    <!-- Contenido principal -->
     <main class="contenedor">
         <h1 class="fade-in highlight-text">Gian Montenegro Mendoza</h1>
-        <p class="fade-in" style="font-size: 1.3rem; color: var(--text-secondary); margin: 1rem 0 2rem; max-width: 700px; text-align: center; font-weight: 500;">
+        <p class="fade-in"
+            style="font-size: 1.3rem; color: var(--text-secondary); margin: 1rem 0 2rem; max-width: 700px; text-align: center; font-weight: 500;">
             📚 Docente de Metodología de la Investigación
         </p>
 
+        <!-- Sección de perfil -->
         <div class="profile-section fade-in">
             <div class="profile-header">
                 <div class="profile-images">
                     <img src="images/fhgew.png" alt="Imagen de perfil del docente" class="profile-image">
                 </div>
-                
-                <p style="font-size: 1.1rem; color: var(--text-secondary); max-width: 600px; margin: 0 auto; line-height: 1.7;">
-                    Bienvenido al perfil del docente encargado de guiarte en tu proyecto de investigación. Con una sólida experiencia en el campo académico, mi objetivo es brindarte todas las herramientas y conocimientos necesarios para que desarrolles un trabajo de investigación de alta calidad y rigor científico.
+
+                <p
+                    style="font-size: 1.1rem; color: var(--text-secondary); max-width: 600px; margin: 0 auto; line-height: 1.7;">
+                    Bienvenido al perfil del docente encargado de guiarte en tu proyecto de investigación. Con una
+                    sólida experiencia en el campo académico, mi objetivo es brindarte todas las herramientas y
+                    conocimientos necesarios para que desarrolles un trabajo de investigación de alta calidad y rigor
+                    científico.
                 </p>
             </div>
 
@@ -304,159 +77,38 @@
                         <li>Evaluación de Proyectos de Investigación</li>
                     </ul>
                 </div>
-                </div>
             </div>
-
-            <div class="achievements-section fade-in">
-                <h3 style="color: var(--text-primary); margin-bottom: 1rem;">🏆 Logros y Reconocimientos</h3>
-                <div class="achievements-grid">
-                    <div class="achievement-item">
-                        <span class="achievement-number">85+</span>
-                        <span class="achievement-label">Tesis Dirigidas</span>
-                    </div>
-                    <div class="achievement-item">
-                        <span class="achievement-number">25</span>
-                        <span class="achievement-label">Artículos Publicados</span>
-                    </div>
-                    <div class="achievement-item">
-                        <span class="achievement-number">12</span>
-                        <span class="achievement-label">Proyectos de Investigación</span>
-                    </div>
-                    <div class="achievement-item">
-                        <span class="achievement-number">5</span>
-                        <span class="achievement-label">Premios Académicos</span>
-                    </div>
-                </div>
-            </div>
-
-            <a href="javascript:history.back()" class="back-button fade-in">
-                ← Regresar
-            </a>
         </div>
+
+        <!-- Sección de logros -->
+        <div class="achievements-section fade-in">
+            <h3 style="color: var(--text-primary); margin-bottom: 1rem;">🏆 Logros y Reconocimientos</h3>
+            <div class="achievements-grid">
+                <div class="achievement-item">
+                    <span class="achievement-number">85+</span>
+                    <span class="achievement-label">Tesis Dirigidas</span>
+                </div>
+                <div class="achievement-item">
+                    <span class="achievement-number">25</span>
+                    <span class="achievement-label">Artículos Publicados</span>
+                </div>
+                <div class="achievement-item">
+                    <span class="achievement-number">12</span>
+                    <span class="achievement-label">Proyectos de Investigación</span>
+                </div>
+                <div class="achievement-item">
+                    <span class="achievement-number">5</span>
+                    <span class="achievement-label">Premios Académicos</span>
+                </div>
+            </div>
+        </div>
+
+        <a href="javascript:history.back()" class="back-button fade-in">
+            ← Regresar
+        </a>
     </main>
 
-    <script>
-        // Función para cambiar el tema
-        function toggleTheme() {
-            const html = document.documentElement;
-            const themeIcon = document.querySelector('.theme-icon');
-            const themeText = document.querySelector('.theme-text');
-            
-            if (html.getAttribute('data-theme') === 'dark') {
-                html.removeAttribute('data-theme');
-                themeIcon.textContent = '🌙';
-                localStorage.setItem('theme', 'light');
-            } else {
-                html.setAttribute('data-theme', 'dark');
-                themeIcon.textContent = '☀️';
-                localStorage.setItem('theme', 'dark');
-            }
-        }
-
-        // Función para cargar el tema desde localStorage
-        function loadTheme() {
-            const savedTheme = localStorage.getItem('theme');
-            const html = document.documentElement;
-            const themeIcon = document.querySelector('.theme-icon');
-            const themeText = document.querySelector('.theme-text');
-            
-            if (savedTheme === 'dark') {
-                html.setAttribute('data-theme', 'dark');
-                themeIcon.textContent = '☀️';
-            } else {
-                html.removeAttribute('data-theme');
-                themeIcon.textContent = '🌙';
-            }
-        }
-        
-        // Animación de fondo y partículas
-        function createBackgroundAnimation() {
-            const container = document.getElementById('backgroundAnimation');
-            const particleCount = 25;
-            
-            for (let i = 0; i < particleCount; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'particle';
-                particle.style.left = Math.random() * 100 + '%';
-                particle.style.top = Math.random() * 100 + '%';
-                particle.style.width = (Math.random() * 5 + 3) + 'px';
-                particle.style.height = particle.style.width;
-                particle.style.animationDelay = Math.random() * 8 + 's';
-                particle.style.animationDuration = (Math.random() * 5 + 6) + 's';
-                container.appendChild(particle);
-            }
-        }
-
-        // Animación de contador para logros
-        function animateCounters() {
-            const counters = document.querySelectorAll('.achievement-number');
-            counters.forEach(counter => {
-                const target = parseInt(counter.textContent);
-                const increment = target / 50;
-                let current = 0;
-                
-                const updateCounter = () => {
-                    if (current < target) {
-                        current += increment;
-                        counter.textContent = Math.floor(current) + (counter.textContent.includes('+') ? '+' : '');
-                        requestAnimationFrame(updateCounter);
-                    } else {
-                        counter.textContent = target + (counter.textContent.includes('+') ? '+' : '');
-                    }
-                };
-                
-                // Comenzar animación cuando el elemento sea visible
-                const observer = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            setTimeout(updateCounter, Math.random() * 500);
-                            observer.unobserve(entry.target);
-                        }
-                    });
-                });
-                
-                observer.observe(counter);
-            });
-        }
-
-        document.addEventListener('DOMContentLoaded', function() {
-            // Ocultar preloader
-            const preloader = document.getElementById('preloader');
-            preloader.style.opacity = '0';
-            setTimeout(() => {
-                preloader.style.display = 'none';
-            }, 500);
-
-            loadTheme();
-            createBackgroundAnimation();
-            animateCounters();
-            
-            // Añadir animaciones de entrada escalonadas
-            const elements = document.querySelectorAll('.fade-in');
-            elements.forEach((el, index) => {
-                el.style.animationDelay = (index * 0.2) + 's';
-                el.classList.add('animated');
-            });
-        });
-
-        // Detectar preferencia de sistema para modo oscuro
-        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            if (!localStorage.getItem('theme')) {
-                document.documentElement.setAttribute('data-theme', 'dark');
-                localStorage.setItem('theme', 'dark');
-            }
-        }
-
-        // Listener para cambios en la preferencia del sistema
-        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
-            if (!localStorage.getItem('theme')) {
-                if (e.matches) {
-                    document.documentElement.setAttribute('data-theme', 'dark');
-                } else {
-                    document.documentElement.removeAttribute('data-theme');
-                }
-            }
-        });
-    </script>
+    <script src="js/docente.js"></script>
 </body>
+
 </html>
