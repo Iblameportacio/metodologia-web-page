@@ -2,128 +2,224 @@
 <html lang="es">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description"
-    content="Plantillas de investigación profesionales - Descarga plantillas gratuitas para tus proyectos de investigación">
-  <meta name="keywords" content="plantillas, investigación, académicas, descargar, PDF, trabajos, proyectos">
-  <title>Metodología de Investigación - Inicio</title>
-  <link rel="stylesheet" href="css/estilos.css">
-  <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Plantillas de investigación profesionales - Descarga plantillas gratuitas para tus proyectos de investigación">
+    <meta name="keywords" content="plantillas, investigación, académicas, descargar, PDF, trabajos, proyectos">
+    <title>Metodología de Investigación - Inicio</title>
+    <link rel="stylesheet" href="css/estilos.css">
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+    <style>
+        /* Estilos CSS añadidos temporalmente para el botón de acceso y el formulario modal/superpuesto */
+        .login-button {
+            background-color: var(--color-primary); /* Usa el color principal de tu tema */
+            color: var(--text-color-light); /* Texto claro para contraste */
+            border: none;
+            padding: 8px 15px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            margin-right: 10px; /* Separación del botón de modo oscuro */
+        }
+        .login-button:hover {
+            background-color: var(--color-primary-dark);
+        }
+        
+        /* Aseguramos que el login form aparezca centrado y por encima del contenido */
+        .login-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: none; /* Inicialmente oculto */
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .login-form-container {
+            background-color: var(--background-color);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+        }
+
+        .login-form-container input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            margin: 15px 0;
+            box-sizing: border-box;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            background-color: var(--background-secondary);
+            color: var(--text-primary);
+        }
+        
+        /* Estilos responsivos para el header si es necesario (ya deberían estar en tu estilos.css) */
+        @media (max-width: 600px) {
+            .header-content {
+                display: flex;
+                flex-wrap: wrap; /* Permite que los botones se envuelvan si es necesario */
+                justify-content: space-between;
+                align-items: center;
+            }
+            .login-button {
+                padding: 6px 10px;
+                font-size: 0.8rem;
+                margin-bottom: 5px;
+            }
+        }
+    </style>
 </head>
 
 <body>
-  <!-- Preloader -->
-  <div class="preloader" id="preloader">
-    <div class="spinner"></div>
-    <p>Cargando...</p>
-  </div>
-
-  <!-- Header -->
-  <header class="header">
-    <div class="header-content">
-      <img src="images/logo.png" alt="Logo Plantillas de Investigación" class="logo-header">
-      <button class="theme-toggle" onclick="toggleTheme()" aria-label="Cambiar tema">
-        <span class="theme-icon">🌙</span>
-      </button>
+    <div class="preloader" id="preloader">
+        <div class="spinner"></div>
+        <p>Cargando...</p>
     </div>
-  </header>
 
-  <!-- Animación de fondo -->
-  <div class="background-animation" id="backgroundAnimation"></div>
+    <header class="header">
+        <div class="header-content">
+            <img src="images/logo.png" alt="Logo Plantillas de Investigación" class="logo-header">
+            
+            <div style="display: flex; align-items: center;">
+                <button class="login-button" id="openLoginButton">
+                    Acceso Profesor
+                </button>
 
-  <!-- Contenido principal -->
-  <main class="contenedor">
-    <h1 class="fade-in">Bienvenido a la página de</h1>
-    <h1 class="fade-in highlight-text">Metodología de la Investigación</h1>
-
-    <p class="fade-in" style="font-size: 1.2rem; color: var(--text-secondary); margin: 2rem 0; max-width: 600px;">
-      Descubre nuestra colección de plantillas profesionales diseñadas para facilitar tus proyectos de investigación
-      académica en nuestra institución.
-    </p>
-
-    <button class="botonp fade-in" onclick="window.location.href='plantillas.html'">
-      Ver Plantillas Disponibles
-    </button>
-    <button class="botonp fade-in" onclick="window.location.href='docente.html'">
-      Ver perfil del docente
-    </button>
-
-    <!-- Sección de trabajos destacados -->
-    <section class="featured-works-section fade-in">
-      <h2>🏆 Mejores Trabajos de Investigación</h2>
-      <p
-        style="color: var(--text-secondary); margin-bottom: 2rem; max-width: 700px; margin-left: auto; margin-right: auto;">
-        Explora los proyectos más destacados de nuestra institución de los años 2023 y 2024. Estos trabajos representan
-        la excelencia académica y la innovación.
-      </p>
-
-      <div class="works-grid">
-        <div class="work-card">
-          <span class="icon">🔬</span>
-          <h3>Estudio de Impacto Ambiental Urbano (2023)</h3>
-          <p>Análisis de la calidad del aire y sus efectos en la salud en áreas urbanas de la región, destacando
-            soluciones sostenibles.</p>
-          <a href="/docs/trabajo_2023_1.pdf" target="_blank" rel="noopener noreferrer" class="view-button">Ver PDF</a>
+                <button class="theme-toggle" onclick="toggleTheme()" aria-label="Cambiar tema">
+                    <span class="theme-icon">🌙</span>
+                </button>
+            </div>
         </div>
+    </header>
 
-        <div class="work-card">
-          <span class="icon">📚</span>
-          <h3>Innovación Pedagógica en Educación Superior (2023)</h3>
-          <p>Investigación sobre nuevas metodologías de enseñanza y aprendizaje aplicadas en programas universitarios.
-          </p>
-          <a href="/docs/trabajo_2023_2.pdf" target="_blank" rel="noopener noreferrer" class="view-button">Ver PDF</a>
+    <div class="login-modal-overlay" id="loginModal">
+        <div class="login-form-container">
+            <h3>Acceso Restringido</h3>
+            <p>Introduce la contraseña para acceder al panel de subida.</p>
+
+            <form id="loginForm">
+                <input type="password" id="passwordInput" placeholder="Contraseña" required>
+                <button type="submit" class="botonp">Entrar</button>
+                <p id="errorMessage" style="color: red; margin-top: 10px; display: none;">Contraseña incorrecta. Inténtalo de nuevo.</p>
+            </form>
+            
+            <button onclick="document.getElementById('loginModal').style.display='none'" 
+                    style="margin-top: 15px; background: none; border: none; color: var(--text-secondary); cursor: pointer;">
+                Cerrar
+            </button>
         </div>
+    </div>
+    
+    <div class="background-animation" id="backgroundAnimation"></div>
 
-        <div class="work-card">
-          <span class="icon">💻</span>
-          <h3>Desarrollo de IA para Optimización Logística (2024)</h3>
-          <p>Aplicación de algoritmos de inteligencia artificial para mejorar la eficiencia en cadenas de suministro
-            locales.</p>
-          <a href="/docs/trabajo_2024_1.pdf" target="_blank" rel="noopener noreferrer" class="view-button">Ver PDF</a>
-        </div>
+    <main class="contenedor">
+        <h1 class="fade-in">Bienvenido a la página de</h1>
+        <h1 class="fade-in highlight-text">Metodología de la Investigación</h1>
 
-        <div class="work-card">
-          <span class="icon">🌱</span>
-          <h3>Agricultura Sostenible y Biotecnología (2024)</h3>
-          <p>Estudio sobre técnicas biotecnológicas para el cultivo de alimentos orgánicos y su impacto en la
-            sostenibilidad.</p>
-          <a href="/docs/trabajo_2024_2.pdf" target="_blank" rel="noopener noreferrer" class="view-button">Ver PDF</a>
-        </div>
-      </div>
-    </section>
-  </main>
+        <p class="fade-in" style="font-size: 1.2rem; color: var(--text-secondary); margin: 2rem 0; max-width: 600px;">
+            Descubre nuestra colección de plantillas profesionales diseñadas para facilitar tus proyectos de investigación
+            académica en nuestra institución.
+        </p>
 
-  <script src="js/main.js"></script>
-  <script>
-async function loadDestacados() {
-  try {
-    const res = await fetch("/api/list");
-    const files = await res.json();
+        <button class="botonp fade-in" onclick="window.location.href='plantillas.html'">
+            Ver Plantillas Disponibles
+        </button>
+        <button class="botonp fade-in" onclick="window.location.href='docente.html'">
+            Ver perfil del docente
+        </button>
 
-    // Filtrar solo PDFs
-    const pdfs = files.filter(f => f.pathname.endsWith(".pdf"));
+        <section class="featured-works-section fade-in">
+            <h2>🏆 Mejores Trabajos de Investigación</h2>
+            <p
+                style="color: var(--text-secondary); margin-bottom: 2rem; max-width: 700px; margin-left: auto; margin-right: auto;">
+                Explora los proyectos más destacados de nuestra institución de los años 2023 y 2024. Estos trabajos representan
+                la excelencia académica y la innovación.
+            </p>
 
-    const grid = document.querySelector(".works-grid");
+            <div class="works-grid">
+                </div>
+        </section>
+    </main>
 
-    // Limpiar los trabajos fijos y reemplazarlos
-    grid.innerHTML = pdfs.map(f => `
-      <div class="work-card">
-        <span class="icon">📄</span>
-        <h3>${f.pathname}</h3>
-        <p>Archivo subido por los estudiantes.</p>
-        <a href="${f.url}" target="_blank" rel="noopener noreferrer" class="view-button">Ver PDF</a>
-      </div>
-    `).join("");
+    <script src="js/main.js"></script>
+    
+    <script>
+        // --- LÓGICA DEL LOGIN ---
+        document.getElementById('openLoginButton').addEventListener('click', () => {
+            document.getElementById('loginModal').style.display = 'flex';
+        });
 
-  } catch (err) {
-    console.error("ERROR LOADING DESTACADOS:", err);
-  }
-}
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
 
-loadDestacados();
-</script>
+            const password = document.getElementById('passwordInput').value;
+            const errorMessage = document.getElementById('errorMessage');
+            errorMessage.style.display = 'none';
+
+            try {
+                // 1. Llamada a la función serverless de login
+                const response = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ password: password }) // Enviamos la contraseña
+                });
+
+                const data = await response.json();
+
+                if (response.ok && data.success) {
+                    // 2. Éxito: Redirigimos al panel de administración (profegian.html)
+                    window.location.href = 'profegian.html'; 
+                } else {
+                    // 3. Fallo: Mostrar mensaje de error
+                    errorMessage.textContent = 'Contraseña incorrecta. Inténtalo de nuevo.';
+                    errorMessage.style.display = 'block';
+                }
+            } catch (error) {
+                errorMessage.textContent = 'Error de conexión con el servidor de verificación.';
+                errorMessage.style.display = 'block';
+                console.error('Login error:', error);
+            }
+        });
+
+        // --- LÓGICA DE CARGA DE DESTACADOS (Tu código existente) ---
+        async function loadDestacados() {
+            try {
+                const res = await fetch("/api/list");
+                const files = await res.json();
+
+                // Filtrar solo PDFs
+                const pdfs = files.filter(f => f.pathname.endsWith(".pdf"));
+
+                const grid = document.querySelector(".works-grid");
+
+                // Limpiar los trabajos fijos y reemplazarlos
+                grid.innerHTML = pdfs.map(f => `
+                    <div class="work-card">
+                        <span class="icon">📄</span>
+                        <h3>${f.pathname}</h3>
+                        <p>Archivo subido por los estudiantes.</p>
+                        <a href="${f.url}" target="_blank" rel="noopener noreferrer" class="view-button">Ver PDF</a>
+                    </div>
+                `).join("");
+
+            } catch (err) {
+                console.error("ERROR LOADING DESTACADOS:", err);
+            }
+        }
+
+        loadDestacados();
+    </script>
 
 </body>
-
 </html>
