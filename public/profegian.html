@@ -1,123 +1,132 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Panel del Profesor - Subir Trabajos</title>
-  <link rel="stylesheet" href="css/estilos.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel del Profesor - Subir Trabajos</title>
+    <link rel="stylesheet" href="css/estilos.css">
 </head>
 
 <body>
 
-  <h1>Panel del Profesor</h1>
-  <p>Aquí puedes subir trabajos en PDF que aparecerán automáticamente en la página de inicio.</p>
+    <h1>Panel del Profesor</h1>
+    <p>Aquí puedes subir trabajos en PDF que aparecerán automáticamente en la página de inicio.</p>
 
-  <!-- FORMULARIO DE SUBIDA -->
-  <form id="formUpload">
-    <input type="file" id="fileInput" accept="application/pdf">
-    <button type="submit">Subir PDF</button>
-  </form>
+    <form id="formUpload">
+        <input type="file" id="fileInput" accept="application/pdf">
+        <button type="submit">Subir PDF</button>
+    </form>
 
-  <hr>
+    <hr>
 
-  <h2>Archivos Subidos</h2>
-  <ul id="lista"></ul>
+    <h2>Archivos Subidos</h2>
+    <ul id="lista"></ul>
 
-  <h2>Vista Previa</h2>
-  <div class="works-grid"></div>
+    <h2>Vista Previa</h2>
+    <div class="works-grid"></div>
 
-  <!-- SCRIPT DE MANEJO DE ARCHIVOS -->
-  <script>
-    document.getElementById("formUpload").addEventListener("submit", async (e) => {
-      e.preventDefault();
+    <script>
+        // --- FUNCIÓN DE SUBIDA (SIN CAMBIOS NECESARIOS) ---
+        document.getElementById("formUpload").addEventListener("submit", async (e) => {
+            e.preventDefault();
 
-      const file = document.getElementById("fileInput").files[0];
-      if (!file) return alert("Selecciona un archivo");
+            const file = document.getElementById("fileInput").files[0];
+            if (!file) return alert("Selecciona un archivo");
 
-      // Enviar el archivo como stream
-      const res = await fetch("/api/upload", {
-        method: "PUT",
-        headers: {
-          "x-file-name": file.name,
-          "Content-Type": file.type || "application/octet-stream"
-        },
-        body: file
-      });
+            const res = await fetch("/api/upload", {
+                method: "PUT",
+                headers: {
+                    "x-file-name": file.name,
+                    "Content-Type": file.type || "application/octet-stream"
+                },
+                body: file
+            });
 
-      if (!res.ok) {
-        const text = await res.text().catch(() => null);
-        console.error("Upload failed:", res.status, text);
-        return alert("Error subiendo archivo: " + (text || res.status));
-      }
+            if (!res.ok) {
+                const text = await res.text().catch(() => null);
+                console.error("Upload failed:", res.status, text);
+                return alert("Error subiendo archivo: " + (text || res.status));
+            }
 
-      alert("Archivo subido correctamente");
-      await load();
-    });
+            alert("Archivo subido correctamente");
+            await load();
+        });
 
-    async function load() {
-      const res = await fetch("/api/list");
-      if (!res.ok) {
-        const txt = await res.text().catch(()=>null);
-        console.error("List failed:", res.status, txt);
-        return document.getElementById("lista").innerText = "Error cargando lista";
-      }
+        // --- FUNCIÓN DE LISTADO (MODIFICADA PARA PASAR LA URL COMPLETA) ---
+        async function load() {
+            const res = await fetch("/api/list");
+            if (!res.ok) {
+                const txt = await res.text().catch(()=>null);
+                console.error("List failed:", res.status, txt);
+                return document.getElementById("lista").innerText = "Error cargando lista";
+            }
 
-      const files = await res.json();
+            const files = await res.json();
+            
+            // Renderizar lista
+            document.getElementById("lista").innerHTML = files.map(f => {
+                // Generamos la URL completa (esto ya lo hacías bien)
+                const url = f.url || f.href || (f.pathname ? `https://${location.hostname}${f.pathname}` : '');
+                const name = f.pathname || f.name || f.filename || url.split('/').pop();
 
-      // Renderizar lista
-      document.getElementById("lista").innerHTML = files.map(f => {
-        const url = f.url || f.href || (f.pathname ? `https://${location.hostname}${f.pathname}` : '');
-        const name = f.pathname || f.name || f.filename || url.split('/').pop();
+                return `
+                    <li>
+                        <a href="${url}" target="_blank" rel="noopener noreferrer">${name}</a>
+                        <button onclick="eliminar('${encodeURIComponent(url)}')">Eliminar</button>
+                    </li>
+                `;
+            }).join("");
 
-        return `
-          <li>
-            <a href="${url}" target="_blank" rel="noopener noreferrer">${name}</a>
-            <button onclick="eliminar('${encodeURIComponent(name)}')">Eliminar</button>
-          </li>
-        `;
-      }).join("");
+            renderWorksGrid(files);
+        }
 
-      renderWorksGrid(files);
-    }
+        // --- FUNCIÓN DE ELIMINACIÓN (MODIFICADA PARA RECIBIR Y ENVIAR LA URL COMPLETA) ---
+        async function eliminar(fileUrlEncoded) {
+            if (!confirm("¿Estás seguro de que quieres eliminar este archivo?")) {
+                return;
+            }
 
-    async function eliminar(fileNameEncoded) {
-      const fileName = decodeURIComponent(fileNameEncoded);
-      const res = await fetch("/api/delete?path=" + encodeURIComponent(fileName), {
-        method: "DELETE",
-      });
+            // Decodificamos la URL COMPLETA del Blob que se pasó desde el botón
+            const fileUrl = decodeURIComponent(fileUrlEncoded); 
+            
+            // ⚠️ CORRECCIÓN: Enviamos la URL completa como parámetro 'url'
+            const res = await fetch("/api/delete?url=" + encodeURIComponent(fileUrl), {
+                method: "DELETE",
+            });
 
-      if (!res.ok) {
-        const txt = await res.text().catch(()=>null);
-        console.error("Delete failed:", res.status, txt);
-        return alert("Error eliminando archivo");
-      }
+            if (!res.ok) {
+                const txt = await res.text().catch(()=>null);
+                console.error("Delete failed:", res.status, txt);
+                return alert("Error eliminando archivo: " + (txt || res.status));
+            }
 
-      alert("Archivo eliminado");
-      load();
-    }
+            alert("Archivo eliminado");
+            load(); // ¡Importante! Recargar la lista para que desaparezca el archivo
+        }
 
-    function renderWorksGrid(files) {
-      const grid = document.querySelector(".works-grid");
-      if (!grid) return;
+        function renderWorksGrid(files) {
+            // ... (Tu código existente para renderizar la vista previa)
+            const grid = document.querySelector(".works-grid");
+            if (!grid) return;
 
-      grid.innerHTML = files.map(f => {
-        const url = f.url || f.href || (f.pathname ? `https://${location.hostname}${f.pathname}` : '');
-        const name = f.pathname || f.name || f.filename || url.split('/').pop();
+            grid.innerHTML = files.map(f => {
+                const url = f.url || f.href || (f.pathname ? `https://${location.hostname}${f.pathname}` : '');
+                const name = f.pathname || f.name || f.filename || url.split('/').pop();
 
-        return `
-          <div class="work-item">
-            <a href="${url}" target="_blank" rel="noopener noreferrer">${name}</a>
-            <div class="pdf-preview" style="margin-top:6px;">
-              <a href="${url}" target="_blank">Abrir PDF</a>
-            </div>
-          </div>
-        `;
-      }).join("");
-    }
+                return `
+                    <div class="work-item">
+                        <a href="${url}" target="_blank" rel="noopener noreferrer">${name}</a>
+                        <div class="pdf-preview" style="margin-top:6px;">
+                            <a href="${url}" target="_blank">Abrir PDF</a>
+                        </div>
+                    </div>
+                `;
+            }).join("");
+        }
 
-    // Cargar archivos al abrir la página
-    load();
-  </script>
+        // Cargar archivos al abrir la página
+        load();
+    </script>
 
 </body>
 </html>
