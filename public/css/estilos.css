@@ -44,6 +44,27 @@
   --shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
   --shadow-lg: 0 4px 16px rgba(0, 0, 0, 0.4);
 }
+/* ========================================
+   HEADER
+   ======================================== */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  /*Fondo semitransparente */
+  background: rgba(var(--bg-secondary-rgb), 0.75); /* RGB para la transparencia */
+  
+  /* EFECTO LIQUID GLASS*/
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px); /* Para compatibilidad con navegadores basados en WebKit */
+  
+  border-bottom: 2px solid var(--border-color);
+  padding: 1rem 0;
+  z-index: 1000;
+  box-shadow: var(--shadow);
+  transition: background-color 0.3s ease, border-color 0.3s ease; /* Aseguramos la transición del tema */
+}
 
 /* ========================================
    RESET Y CONFIGURACIÓN BASE
