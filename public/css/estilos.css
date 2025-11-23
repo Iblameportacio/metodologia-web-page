@@ -7,12 +7,15 @@
   --color-azul: #2E5C8A;
   --color-rojo: #C94545;
   --color-amarillo: #F4B942;
-  --color-blancowhitesmoke:   #F5F5F5;;
+  --color-blanco: #FFFFFF; /* Añadido para consistencia */
 
   /* Colores de fondo */
   --bg-primary: var(--color-beige);
   --bg-secondary: var(--color-blanco);
   --bg-card: #FAF3E8;
+  
+  /* ⚠️ NUEVA VARIABLE RGB PARA LA SEMITRANSPARENCIA DEL HEADER */
+  --bg-secondary-rgb: 255, 255, 255; /* RGB de var(--color-blanco) */
 
   /* Colores de texto */
   --text-primary: #2C2C2C;
@@ -36,6 +39,10 @@
   --bg-primary: #1F2937;
   --bg-secondary: #374151;
   --bg-card: #2D3748;
+  
+  /* ⚠️ NUEVA VARIABLE RGB PARA MODO OSCURO */
+  --bg-secondary-rgb: 55, 65, 81; /* RGB de var(--bg-secondary) en modo oscuro */
+  
   --text-primary: #F9FAFB;
   --text-secondary: #D1D5DB;
   --border-color: #4B5563;
@@ -44,28 +51,6 @@
   --shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
   --shadow-lg: 0 4px 16px rgba(0, 0, 0, 0.4);
 }
-/* ========================================
-   HEADER
-   ======================================== */
-.header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  /*Fondo semitransparente */
-  background: rgba(var(--bg-secondary-rgb), 0.75); /* RGB para la transparencia */
-  
-  /* EFECTO LIQUID GLASS*/
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px); /* Para compatibilidad con navegadores basados en WebKit */
-  
-  border-bottom: 2px solid var(--border-color);
-  padding: 1rem 0;
-  z-index: 1000;
-  box-shadow: var(--shadow);
-  transition: background-color 0.3s ease, border-color 0.3s ease; /* Aseguramos la transición del tema */
-}
-
 /* ========================================
    RESET Y CONFIGURACIÓN BASE
    ======================================== */
@@ -141,11 +126,16 @@ body {
   top: 0;
   left: 0;
   right: 0;
-  background: var(--bg-secondary);
+  /* ⚠️ Liquid Glass: Usamos la variable RGB y transparencia para el blur */
+  background: rgba(var(--bg-secondary-rgb), 0.85); /* 0.85 para un mejor balance */
+  backdrop-filter: blur(10px); /* Aumentado ligeramente para mejor efecto */
+  -webkit-backdrop-filter: blur(10px);
+  
   border-bottom: 2px solid var(--border-color);
   padding: 1rem 0;
   z-index: 1000;
   box-shadow: var(--shadow);
+  transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .header-content {
@@ -657,67 +647,69 @@ p {
   outline: 3px solid var(--color-amarillo);
   outline-offset: 2px;
 }
-/* --- ESTILOS PARA EL LOGIN DEL PROFESOR  --- */
+
+/* ========================================
+   ACCESO PROFESOR (LOGIN MODAL)
+   ======================================== */
 
 /* Estilo del botón de Acceso */
 .login-button {
-    background-color: var(--color-azul); /* Usando var(--accent-color) o var(--color-azul) */
-    color: var(--color-blanco); 
-    border: none;
-    padding: 8px 15px;
-    border-radius: 6px;
-    font-size: 0.9rem;
-    cursor: pointer;
-    transition: background-color 0.2s;
-    margin-right: 10px; /* Separación del botón de modo oscuro */
+  background-color: var(--color-azul);
+  color: var(--color-blanco);
+  border: none;
+  padding: 8px 15px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  margin-right: 10px;
 }
 .login-button:hover {
-    background-color: #234A6E; /* Usando var accent-hover o el valor directo */
+  background-color: var(--accent-hover);
 }
 
 /* Fondo oscuro detrás del modal */
 .login-modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
-    /* none para ocultar al inicio no mver */
-    display: none; 
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: none; /* CLAVE: Oculto al inicio, JavaScript lo activa */
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
 }
 
 /* Contenedor del Formulario */
 .login-form-container {
-    background-color: var(--bg-secondary); 
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
-    max-width: 400px;
-    width: 90%;
-    text-align: center;
+  background-color: var(--bg-secondary);
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+  max-width: 400px;
+  width: 90%;
+  text-align: center;
 }
 
 /* Campo de contraseña */
 .login-form-container input[type="password"] {
-    width: 100%;
-    padding: 12px;
-    margin: 15px 0;
-    box-sizing: border-box;
-    border: 1px solid var(--border-color);
-    border-radius: 6px;
-    background-color: var(--bg-card); /* Usando bg-card para el input */
-    color: var(--text-primary);
+  width: 100%;
+  padding: 12px;
+  margin: 15px 0;
+  box-sizing: border-box;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  background-color: var(--bg-card);
+  color: var(--text-primary);
 }
 
-/* Responsividad */
+/* Responsividad para el botón de login */
 @media (max-width: 600px) {
-    .login-button {
-        padding: 6px 10px;
-        font-size: 0.8rem;
-        margin-bottom: 5px;
-    }
+  .login-button {
+    padding: 6px 10px;
+    font-size: 0.8rem;
+    margin-bottom: 5px;
+  }
 }
