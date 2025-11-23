@@ -1,0 +1,9 @@
+{
+  "name": "metodologia-web-page",
+  "version": "1.0.0",
+  "description": "Configuración de dependencias para Vercel Serverless Functions.",
+  "private": true,
+  "dependencies": {
+    "@vercel/blob": "^0.23.0" 
+  }
+}
