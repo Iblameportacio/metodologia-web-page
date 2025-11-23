@@ -86,12 +86,12 @@
     <script src="js/main.js"></script>
     
     <script>
-        // --- LÓGICA DEL MODAL ---
+        // --- LÓGICA DEL MODAL: Muestra el formulario al hacer clic ---
         document.getElementById('openLoginButton').addEventListener('click', () => {
             document.getElementById('loginModal').style.display = 'flex';
         });
 
-        // --- LÓGICA DEL LOGIN ---
+        // --- LÓGICA DEL LOGIN: Verifica la contraseña ---
         document.getElementById('loginForm').addEventListener('submit', async function(e) {
             e.preventDefault();
 
@@ -100,7 +100,6 @@
             errorMessage.style.display = 'none';
 
             try {
-                // Llamada a la función serverless de login
                 const response = await fetch('/api/login', {
                     method: 'POST',
                     headers: {
@@ -112,10 +111,8 @@
                 const data = await response.json();
 
                 if (response.ok && data.success) {
-                    // Contraseña correcta: redirigimos al panel
                     window.location.href = 'profegian.html'; 
                 } else {
-                    // Contraseña incorrecta
                     errorMessage.textContent = 'Contraseña incorrecta.';
                     errorMessage.style.display = 'block';
                 }
