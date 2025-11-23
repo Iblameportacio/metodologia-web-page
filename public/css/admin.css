@@ -1,1 +1,197 @@
 
+/* ========================================
+   admin.css - ESTILOS PARA EL PANEL DEL PROFESOR
+   ======================================== */
+
+/* Aplicamos estilos base del cuerpo */
+body {
+    padding-top: 50px; 
+    max-width: 900px;
+    margin: 0 auto;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+}
+
+/* Ttulos */
+h1 {
+    font-size: 2.5rem;
+    color: var(--accent-color);
+    margin-top: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+h2 {
+    font-size: 1.8rem;
+    color: var(--text-primary);
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 0.5rem;
+}
+
+p {
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+}
+
+/* Lnea divisoria */
+hr {
+    border: none;
+    border-top: 1px solid var(--border-color);
+    margin: 2rem 0;
+}
+
+/* ========================================
+   FORMULARIO DE SUBIDA
+   ======================================== */
+#formUpload {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1.5rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+}
+
+/* Estilo para el input de tipo file */
+#fileInput {
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    cursor: pointer;
+}
+
+/* Estilo para el botón de subida (reutilizando botonp de estilos.css) */
+#formUpload button {
+    /* Usamos los estilos del botonp definidos en estilos.css */
+    padding: 0.8rem 1.5rem;
+    font-weight: 600;
+    width: 100%; /* El botón ocupa todo el ancho */
+    text-transform: uppercase;
+}
+
+/* ========================================
+   LISTA DE ARCHIVOS SUBIDOS
+   ======================================== */
+#lista {
+    list-style: none;
+    padding: 0;
+    margin-top: 1rem;
+}
+
+#lista li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 0;
+    border-bottom: 1px dashed var(--border-color);
+}
+
+#lista li:last-child {
+    border-bottom: none;
+}
+
+#lista a {
+    color: var(--accent-color);
+    text-decoration: none;
+    transition: color 0.2s;
+    font-weight: 500;
+    word-break: break-all; /* Para nombres de archivo largos */
+}
+
+#lista a:hover {
+    color: var(--accent-hover);
+    text-decoration: underline;
+}
+
+#lista button {
+    background: var(--color-rojo);
+    color: var(--color-blanco);
+    border: none;
+    padding: 0.5rem 1rem;
+    font-size: 0.8rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: var(--transition);
+    margin-left: 10px;
+    flex-shrink: 0;
+}
+
+#lista button:hover {
+    background: #A53939; /* Rojo más oscuro */
+    transform: translateY(-1px);
+    box-shadow: var(--shadow);
+}
+
+/* Mensaje de error */
+#lista .error-msg {
+    color: var(--color-rojo);
+    font-weight: bold;
+}
+
+/* ========================================
+   VISTA PREVIA me gustan los trabas
+   ======================================== */
+.works-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+
+.work-item {
+    background: var(--bg-secondary);
+    border: 2px solid var(--border-color);
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    text-align: center;
+    transition: var(--transition);
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.work-item:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--accent-color);
+}
+
+.work-item a:first-child {
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.pdf-preview a {
+    background: var(--color-amarillo);
+    color: var(--text-primary);
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 600;
+    display: inline-block;
+    transition: var(--transition);
+}
+
+.pdf-preview a:hover {
+    background: #DDA83A; /* Amarillo ms oscuro */
+    color: var(--color-blanco);
+}
+
+/* ========================================
+   RESPONSIVE DESIGN
+   ======================================== */
+@media (max-width: 600px) {
+    #formUpload {
+        padding: 1rem;
+    }
+    .works-grid {
+        grid-template-columns: 1fr;
+    }
+}
