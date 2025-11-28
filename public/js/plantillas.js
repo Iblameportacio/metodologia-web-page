@@ -1,172 +1,106 @@
+// public/js/plantillas.js
+
 // ========================================
-// FUNCIÓN PARA DESCARGAR PDF
+// 1. UTILIDAD: GENERAR CARD DE PDF (Usada por main.js)
 // ========================================
 
-function descargarPDF(ruta) {
-  const button = event.target;
-  const originalText = button.innerHTML;
-  
-  // Mostrar indicador de descarga
-  button.innerHTML = '⏳ Descargando...';
-  button.disabled = true;
-
-  // Crear enlace para descarga
-  const enlace = document.createElement('a');
-  enlace.href = ruta;
-  enlace.download = '';
-  enlace.style.display = 'none';
-  document.body.appendChild(enlace);
-
-  // Simular delay y ejecutar descarga
-  setTimeout(() => {
-    enlace.click();
-    document.body.removeChild(enlace);
-
-    // Restaurar botón
-    button.innerHTML = originalText;
-    button.disabled = false;
-
-    // Mostrar confirmación
-    showDownloadConfirmation();
-  }, 700);
+/**
+ * Genera el elemento HTML para la tarjeta de un PDF en la vista principal.
+ * @param {object} pdf - Objeto PDF con propiedades {id, nombre, url, fecha}.
+ * @returns {HTMLElement} - El elemento div de la tarjeta.
+ */
+export function createPdfCard(pdf) {
+    // Si la fecha existe, la formateamos. Si no, usamos una cadena vacía.
+    const date = pdf.fecha ? new Date(pdf.fecha).toLocaleDateString() : 'Fecha desconocida';
+    
+    const card = document.createElement('div');
+    card.className = 'work-card'; 
+    card.setAttribute('data-id', pdf.id); 
+    
+    card.innerHTML = `
+        <span class="icon">📄</span>
+        <h3>${pdf.nombre}</h3>
+        <p>Documento subido el ${date}.</p> 
+        <a href="${pdf.url}" target="_blank" rel="noopener noreferrer" class="view-button">Ver PDF</a>
+    `;
+    return card;
 }
 
 // ========================================
-// MOSTRAR CONFIRMACIÓN DE DESCARGA
+// 2. UTILIDAD: MOSTRAR MENSAJES DE ESTADO (Usada por docente.js)
 // ========================================
 
-function showDownloadConfirmation() {
-  const notification = document.createElement('div');
-  notification.innerHTML = '✅ Descarga iniciada exitosamente';
-  notification.style.cssText = `
-    position: fixed;
-    top: 100px;
-    right: 20px;
-    background: var(--accent-color);
-    color: white;
-    padding: 1rem 1.5rem;
-    border-radius: var(--border-radius);
-    box-shadow: var(--shadow-lg);
-    z-index: 10000;
-    animation: slideIn 0.4s ease-out forwards;
-    font-weight: 500;
-    opacity: 0;
-  `;
-
-  document.body.appendChild(notification);
-
-  setTimeout(() => {
-    notification.style.opacity = '1';
-  }, 10);
-
-  setTimeout(() => {
-    notification.style.animation = 'slideOut 0.4s ease-in forwards';
-    setTimeout(() => {
-      document.body.removeChild(notification);
-    }, 400);
-  }, 3000);
+/**
+ * Muestra mensajes de estado (éxito, error, etc.) en un elemento específico.
+ * @param {string} elementId - ID del elemento donde se mostrará el mensaje (e.g., 'authMessage').
+ * @param {string} type - Tipo de mensaje ('success', 'error', 'clear').
+ * @param {string} text - Contenido del mensaje.
+ */
+export function showMessage(elementId, type, text) {
+    const messageDiv = document.getElementById(elementId);
+    if (messageDiv) {
+        if (type === 'clear') {
+            messageDiv.style.display = 'none';
+            messageDiv.textContent = "";
+            return;
+        }
+        messageDiv.className = `message ${type}`;
+        messageDiv.textContent = text;
+        messageDiv.style.display = 'block';
+    }
 }
 
+
 // ========================================
-// ANIMACIONES CSS PARA NOTIFICACIONES
+// 3. UTILIDAD: CONFIRMACIÓN DE DESCARGA
 // ========================================
 
+// Mantenemos la inyección de estilos para las animaciones, ya que es local a esta funcionalidad.
 const style = document.createElement('style');
 style.textContent = `
-  @keyframes slideIn {
-    from { transform: translateX(100%); opacity: 0; }
-    to { transform: translateX(0); opacity: 1; }
-  }
-  @keyframes slideOut {
-    from { transform: translateX(0); opacity: 1; }
-    to { transform: translateX(100%); opacity: 0; }
-  }
+    @keyframes slideIn {
+        from { transform: translateX(100%); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+    }
+    @keyframes slideOut {
+        from { transform: translateX(0); opacity: 1; }
+        to { transform: translateX(100%); opacity: 0; }
+    }
 `;
 document.head.appendChild(style);
 
-// ========================================
-// IMPORTAR FUNCIONES COMUNES
-// ========================================
 
-// Funciones de tema
-function toggleTheme() {
-  const html = document.documentElement;
-  const themeIcon = document.querySelector('.theme-icon');
-  const currentTheme = html.getAttribute('data-theme');
+/**
+ * Muestra una notificación temporal de éxito de descarga.
+ */
+export function showDownloadConfirmation() {
+    const notification = document.createElement('div');
+    notification.innerHTML = '✅ Descarga iniciada exitosamente';
+    notification.style.cssText = `
+        position: fixed;
+        top: 100px;
+        right: 20px;
+        background: var(--accent-color);
+        color: white;
+        padding: 1rem 1.5rem;
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow-lg);
+        z-index: 10000;
+        animation: slideIn 0.4s ease-out forwards;
+        font-weight: 500;
+        opacity: 0;
+    `;
 
-  if (currentTheme === 'dark') {
-    html.removeAttribute('data-theme');
-    themeIcon.textContent = '🌙';
-    localStorage.setItem('theme', 'light');
-  } else {
-    html.setAttribute('data-theme', 'dark');
-    themeIcon.textContent = '☀️';
-    localStorage.setItem('theme', 'dark');
-  }
+    document.body.appendChild(notification);
+
+    setTimeout(() => {
+        notification.style.opacity = '1';
+    }, 10);
+
+    setTimeout(() => {
+        notification.style.animation = 'slideOut 0.4s ease-in forwards';
+        setTimeout(() => {
+            document.body.removeChild(notification);
+        }, 400);
+    }, 3000);
 }
-
-function loadTheme() {
-  const savedTheme = localStorage.getItem('theme');
-  const html = document.documentElement;
-  const themeIcon = document.querySelector('.theme-icon');
-
-  if (savedTheme === 'dark') {
-    html.setAttribute('data-theme', 'dark');
-    themeIcon.textContent = '☀️';
-  } else {
-    html.removeAttribute('data-theme');
-    themeIcon.textContent = '🌙';
-  }
-}
-
-// Animación de fondo
-function createBackgroundAnimation() {
-  const container = document.getElementById('backgroundAnimation');
-  if (!container) return;
-  
-  const particleCount = 20;
-
-  for (let i = 0; i < particleCount; i++) {
-    const particle = document.createElement('div');
-    particle.className = 'particle';
-    
-    particle.style.left = Math.random() * 100 + '%';
-    particle.style.top = Math.random() * 100 + '%';
-    particle.style.width = (Math.random() * 5 + 3) + 'px';
-    particle.style.height = particle.style.width;
-    particle.style.animationDelay = Math.random() * 8 + 's';
-    particle.style.animationDuration = (Math.random() * 5 + 6) + 's';
-
-    container.appendChild(particle);
-  }
-}
-
-// Animaciones de entrada
-function initFadeInAnimations() {
-  const elements = document.querySelectorAll('.fade-in');
-  elements.forEach((el, index) => {
-    el.style.animationDelay = (index * 0.2) + 's';
-    el.classList.add('animated');
-  });
-}
-
-// Detección de tema del sistema
-function detectSystemTheme() {
-  if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-    if (!localStorage.getItem('theme')) {
-      document.documentElement.setAttribute('data-theme', 'dark');
-      localStorage.setItem('theme', 'dark');
-    }
-  }
-}
-
-// ========================================
-// INICIALIZACIÓN
-// ========================================
-
-document.addEventListener('DOMContentLoaded', function() {
-  loadTheme();
-  createBackgroundAnimation();
-  initFadeInAnimations();
-  detectSystemTheme();
-});
