@@ -78,7 +78,11 @@ export default (req, res) => {
                 const { data: dbData, error: dbError } = await supabase
                     .from(TABLE_NAME)
                     // Insertamos el nombre legible (fields.nombre) y la URL pública
-                    .insert([{ nombre: fields.nombre, url: publicUrl }])
+                    .insert([{
+                        nombre: fields.nombre,
+                        url: publicUrl,
+                        file_path: uploadData.path
+                        }])
                     .select()
                     .single();
 
@@ -114,6 +118,7 @@ export default (req, res) => {
         req.pipe(busboy);
     });
 };
+
 
 
 
