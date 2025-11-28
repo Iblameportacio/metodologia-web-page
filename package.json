@@ -1,0 +1,13 @@
+{
+  "name": "nombre-de-tu-proyecto",
+  "version": "1.0.0",
+  "description": "API para gestión de documentos con Supabase y Vercel.",
+  "scripts": {
+    "start": "vercel dev"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.39.3",
+    "busboy": "^1.6.0"
+  },
+  "license": "ISC"
+}
