@@ -220,10 +220,6 @@ async function handleLogin(event) {
 }
 
 
-// ========================================
-// INICIALIZACIÓN AL CARGAR LA PÁGINA
-// ========================================
-
 document.addEventListener('DOMContentLoaded', function() {
     hidePreloader();
     loadTheme();
@@ -232,8 +228,11 @@ document.addEventListener('DOMContentLoaded', function() {
     detectSystemTheme();
     listenSystemThemeChanges();
     
-    // Funciones de lógica de negocio
-    fetchPdfs();
+    // Funciones de lógica de negocio (doble llamada, puedes quitar una)
+    fetchPdfs(); 
     setupAuthModal();
+    // fetchPdfs(); <- Esta está duplicada
+    // setupAuthModal(); <- Esta también
 });
 
+window.toggleTheme = toggleTheme;
