@@ -60,7 +60,7 @@ async function handleUpload(event) {
         const response = await fetch('/api/upload', {
             method: 'POST',
             headers: {
-                // 🛡️ ENVIAMOS LA CONTRASEÑA EN EL HEADER PARA AUTENTICACIÓN
+                // ENVIAMOS LA CONTRASEÑA EN EL HEADER PARA AUTENTICACIÓN
                 'X-Professor-Password': professorPassword,
             },
             body: formData,
@@ -129,10 +129,10 @@ async function fetchAdminPdfs() {
 }
 
 
-async function handleDelete(id, file_path_storage, cardElement) {
-    if (!confirm(`¿Estás seguro de que deseas eliminar el archivo ID ${id}? Esto borrará el archivo y el registro.`)) {
-        return;
-    }
+async function handleDelete(id, nombre_archivo, cardElement) { 
+    if (!confirm(`¿Estás seguro de que deseas eliminar el archivo ID ${id}? Esto borrará el archivo y el registro.`)) {
+        return;
+    }
     
     const professorPassword = sessionStorage.getItem('professor_password');
     if (!professorPassword) {
@@ -147,8 +147,8 @@ async function handleDelete(id, file_path_storage, cardElement) {
                 'Content-Type': 'application/json',
                 'X-Professor-Password': professorPassword, // Autenticación
             },
-            body: JSON.stringify({ id: id, file_path: file_path_storage }), // Pasamos el ID de DB y el path de Storage
-        });
+            body: JSON.stringify({ id: id, nombre_archivo: nombre_archivo }), // CAMBIO CLAVE no mover
+        });
 
         if (response.ok) {
             alert(`Documento ID ${id} eliminado exitosamente.`);
@@ -179,3 +179,4 @@ document.addEventListener('DOMContentLoaded', function() {
     // NOTA: Las funciones de tema/animación (hidePreloader, loadTheme, etc.) deben estar definidas
     //       en otro script si las quieres mantener, ya que no están en el código que me enviaste.
 });
+
