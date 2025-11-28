@@ -8,7 +8,7 @@ const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY; 
 // Usamos la clave de ROL DE SERVICIO para bypass RLS y escribir/subir seguro
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-const BUCKET_NAME = 'documentos';
+const BUCKET_NAME = 'proyectos-institucionales';
 const TABLE_NAME = 'pdfs';
 
 export default (req, res) => {
@@ -114,3 +114,4 @@ export default (req, res) => {
         req.pipe(busboy);
     });
 };
+
