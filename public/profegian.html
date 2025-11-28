@@ -1,39 +1,43 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Panel Docente - Gestión de Documentos</title>
+    <link rel="stylesheet" href="css/estilos.css"> 
 </head>
 <body>
-    <input type="file" id="file" />
-    <button onclick="upload()">Subir Archivo</button>
-    
-    <script>
-        async function upload() {
-            const file = document.getElementById("file").files[0];
-            const base64 = await toBase64(file);
+    <div class="contenedor">
+        <h1>Gestión de Documentos</h1>
 
-            const res = await fetch("/api/upload", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    filename: file.name,
-                    content: base64.split(",")[1],
-                }),
-            });
+        <section class="admin-section">
+            <h2>Subir Nuevo Documento</h2>
+            <form id="uploadForm" class="upload-section">
+                
+                <div class="form-group">
+                    <label for="pdfName">Nombre del Documento (público):</label>
+                    <input type="text" id="pdfName" required 
+                           placeholder="Ej: Guía de Tesis 2024 - Plantilla Oficial">
+                </div>
 
-            const data = await res.json();
-            alert("Subido: " + data.url);
-        }
+                <div class="form-group">
+                    <label for="pdfFile">Seleccionar PDF:</label>
+                    <input type="file" id="pdfFile" accept="application/pdf" required>
+                </div>
 
-        function toBase64(file) {
-            return new Promise(resolve => {
-                const reader = new FileReader();
-                reader.onload = () => resolve(reader.result);
-                reader.readAsDataURL(file);
-            });
-        }
-    </script>
+                <button type="submit" id="submitUploadBtn">Subir Archivo</button>
+                <p id="uploadMessage" class="message-status"></p>
+            </form>
+        </section>
+
+        <section class="admin-section">
+            <h2>Documentos Existentes</h2>
+            <div id="adminPdfListContainer" class="works-grid">
+                </div>
+        </section>
+
+    </div>
+
+    <script type="module" src="js/docente.js"></script>
 </body>
 </html>
