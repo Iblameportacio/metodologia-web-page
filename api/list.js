@@ -14,12 +14,13 @@ export default async function handler(req, res) {
   try {
     const { data, error } = await supabase
       .from('pdfs') // Nombre de la tabla
-      .select('id, nombre, url')
+      // 🚨 CORRECCIÓN 2: Seleccionar el nuevo campo file_path
+      .select('id, nombre, url, file_path') 
       .order('id', { ascending: false });
 
     if (error) {
       console.error('Supabase Error:', error);
-      // 🛡️ ASEGURAR QUE SE DEVUELVE UN JSON VÁLIDO EN CASO DE ERROR DE BD
+      // Asegurar que se devuelve un JSON válido
       return res.status(500).json({ error: error.message || 'Database query failed' });
     }
 
@@ -27,8 +28,7 @@ export default async function handler(req, res) {
 
   } catch (err) {
     console.error('Server Error:', err.message);
-    // 🛡️ ASEGURAR QUE EL CATCH GENERAL TAMBIÉN DEVUELVE UN JSON VÁLIDO
-    // Esto es lo que soluciona el "Unexpected token 'A'"
+    // 🚨 CORRECCIÓN 3: Asegurar que el catch general SIEMPRE devuelve JSON válido
     res.status(500).json({ error: err.message || 'A server error occurred.' });
   }
 }
