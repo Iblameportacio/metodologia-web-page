@@ -21,17 +21,18 @@ export default async (req, res) => {
     }
 
     // 2. OBTENER DATOS
-    const { id, file_path } = req.body; // id del registro de la tabla y nombre del archivo en Storage
+    const { id, file_path } = req.body;// id del registro de la tabla y nombre del archivo en Storage
 
-    if (!id || !nombre_archivo) {
-        return res.status(400).json({ error: 'Faltan parámetros: ID y nombre del archivo.' });
-    }
-
+    if (!id || !file_path) { 
+        // Esto corregira el mensaje de error:
+        return res.status(400).json({ error: 'Faltan parámetros: ID y ruta del archivo (file_path).' });
+    }
     try {
         // A. Eliminar Archivo del Storage
         const { error: storageError } = await supabase.storage
             .from(BUCKET_NAME)
-            .remove([nombre_archivo]);
+            // Usar 'file_path'
+            .remove([file_path]); 
 
         if (storageError && storageError.statusCode !== '404') {
             console.error("Error Supabase Storage:", storageError);
@@ -55,6 +56,7 @@ export default async (req, res) => {
         res.status(500).json({ error: err.message || 'Error interno del servidor durante la eliminación.' });
     }
 };
+
 
 
 
