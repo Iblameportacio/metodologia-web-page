@@ -1,14 +1,14 @@
 // public/js/main.js
 
-// Importación de módulos auxiliares (Asegúrate de que plantillas.js exista y exporte la función)
-import { createPdfCard } from './plantillas.js'; 
+// Importación de módulos auxiliares
+// Asegúrate de que createPdfCard EXISTE y usa 'export' en plantillas.js.
+import { createPdfCard } from './plantillas.js'; 
 
 // ========================================
-// GESTIÓN DEL TEMA (CLARO/OSCURO) - (Sin cambios)
+// GESTIÓN DEL TEMA (CLARO/OSCURO)
 // ========================================
 
 export function toggleTheme() {
-    // ... (Tu código de toggleTheme aquí) ...
     const html = document.documentElement;
     const themeIcon = document.querySelector('.theme-icon');
     const currentTheme = html.getAttribute('data-theme');
@@ -25,7 +25,6 @@ export function toggleTheme() {
 }
 
 function loadTheme() {
-    // ... (Tu código de loadTheme aquí) ...
     const savedTheme = localStorage.getItem('theme');
     const html = document.documentElement;
     const themeIcon = document.querySelector('.theme-icon');
@@ -39,8 +38,9 @@ function loadTheme() {
     }
 }
 
-// ... (Resto de funciones de UI: createBackgroundAnimation, hidePreloader, initFadeInAnimations, etc.) ...
-// Mantén todas las funciones de UI que ya tenías aquí.
+// ========================================
+// UTILIDADES DE UI Y ANIMACIÓN
+// ========================================
 
 function createBackgroundAnimation() {
     const container = document.getElementById('backgroundAnimation');
@@ -102,16 +102,16 @@ function listenSystemThemeChanges() {
 // ========================================
 
 async function fetchPdfs() {
-    const listContainer = document.getElementById('pdfListContainer'); 
+    const listContainer = document.getElementById('pdfListContainer'); 
     if (!listContainer) return;
-    listContainer.innerHTML = 'Cargando documentos...'; 
+    listContainer.innerHTML = 'Cargando documentos...'; 
 
     try {
         const response = await fetch('/api/list');
         if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
         
         const pdfs = await response.json();
-        listContainer.innerHTML = ''; 
+        listContainer.innerHTML = ''; 
 
         if (pdfs.length === 0) {
             listContainer.innerHTML = '<p>No hay documentos disponibles por el momento.</p>';
@@ -119,7 +119,8 @@ async function fetchPdfs() {
         }
 
         pdfs.forEach(pdf => {
-            const card = createPdfCard(pdf); 
+            // Usa la función importada de plantillas.js
+            const card = createPdfCard(pdf); 
             listContainer.appendChild(card);
         });
 
@@ -179,18 +180,24 @@ async function handleLogin(event) {
         const response = await fetch('/api/auth', {
             method: 'POST',
             headers: {
-                // ⚠️ CORREGIDO: Usamos el header que espera el backend.
+                // El backend espera la contraseña aquí para verificarla
                 'X-Professor-Password': password, 
                 'Content-Type': 'application/json' 
             },
+            // Se puede omitir el body si el backend solo usa el header. 
+            // Si el backend lo requiere: body: JSON.stringify({ password: password }),
         });
 
         if (response.ok) {
+            // 🔑 SOLUCIÓN CRÍTICA: Guardar la contraseña en sesión si el login es exitoso
+            sessionStorage.setItem('professor_password', password); 
+            
             message.textContent = "✅ Acceso concedido. Redirigiendo a profeGian...";
             message.style.color = 'green';
             message.style.display = 'block';
             
             setTimeout(() => {
+                // Redirigir al panel docente
                 window.location.href = 'profegian.html'; 
             }, 1000); 
 
@@ -199,6 +206,8 @@ async function handleLogin(event) {
             message.textContent = `❌ ${errorData.error || 'Contraseña incorrecta.'}`;
             message.style.color = 'red';
             message.style.display = 'block';
+            // Asegurarse de limpiar la sesión si falla
+            sessionStorage.removeItem('professor_password');
         }
     } catch (error) {
         console.error('Error de red al autenticar:', error);
