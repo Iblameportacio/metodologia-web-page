@@ -2,99 +2,240 @@
 <html lang="es">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description"
-    content="Plantillas de investigación profesionales - Descarga plantillas gratuitas para tus proyectos de investigación">
-  <meta name="keywords" content="plantillas, investigación, académicas, descargar, PDF, trabajos, proyectos">
-  <title>Metodología de Investigación - Inicio</title>
-  <link rel="stylesheet" href="css/estilos.css">
-  <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Plantillas de investigación profesionales - Descarga plantillas gratuitas para tus proyectos de investigación">
+    <meta name="keywords" content="plantillas, investigación, académicas, descargar, PDF, trabajos, proyectos">
+    <title>Metodología de Investigación - Inicio</title>
+    <link rel="stylesheet" href="css/estilos.css"> 
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+    <style>
+        /* Estilos básicos para el botón flotante y el modal */
+        .admin-login-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--primary-color, #007bff);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s, transform 0.3s;
+            z-index: 1000;
+        }
+
+        .admin-login-button:hover {
+            background-color: var(--primary-darker, #0056b3);
+            transform: scale(1.05);
+        }
+
+        /* Estilos para el Modal (puede ir en estilos.css) */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1001;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: var(--background-card, #fefefe);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            width: 90%;
+            max-width: 400px;
+            position: relative;
+        }
+
+        .close-button {
+            color: var(--text-secondary, #aaa);
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .modal-content input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0 20px 0;
+            display: inline-block;
+            border: 1px solid var(--border-color, #ccc);
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .modal-content button {
+            background-color: var(--primary-color, #007bff);
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            opacity: 1;
+            transition: opacity 0.3s;
+        }
+
+        .modal-content button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .auth-message {
+            margin-top: 15px;
+            text-align: center;
+            color: red;
+            font-weight: bold;
+        }
+    </style>
 </head>
 
 <body>
-  <!-- Preloader -->
-  <div class="preloader" id="preloader">
-    <div class="spinner"></div>
-    <p>Cargando...</p>
-  </div>
-
-  <!-- Header -->
-  <header class="header">
-    <div class="header-content">
-      <img src="images/logo.png" alt="Logo Plantillas de Investigación" class="logo-header">
-      <button class="theme-toggle" onclick="toggleTheme()" aria-label="Cambiar tema">
-        <span class="theme-icon">🌙</span>
-      </button>
+    <div class="preloader" id="preloader">
+        <div class="spinner"></div>
+        <p>Cargando...</p>
     </div>
-  </header>
 
-  <!-- Animación de fondo -->
-  <div class="background-animation" id="backgroundAnimation"></div>
-
-  <!-- Contenido principal -->
-  <main class="contenedor">
-    <h1 class="fade-in">Bienvenido a la página de</h1>
-    <h1 class="fade-in highlight-text">Metodología de la Investigación</h1>
-
-    <p class="fade-in" style="font-size: 1.2rem; color: var(--text-secondary); margin: 2rem 0; max-width: 600px;">
-      Descubre nuestra colección de plantillas profesionales diseñadas para facilitar tus proyectos de investigación
-      académica en nuestra institución.
-    </p>
-
-    <button class="botonp fade-in" onclick="window.location.href='plantillas.html'">
-      Ver Plantillas Disponibles
-    </button>
-    <button class="botonp fade-in" onclick="window.location.href='docente.html'">
-      Ver perfil del docente
-    </button>
-
-    <!-- Sección de trabajos destacados -->
-    <section class="featured-works-section fade-in">
-      <h2>🏆 Mejores Trabajos de Investigación</h2>
-      <p
-        style="color: var(--text-secondary); margin-bottom: 2rem; max-width: 700px; margin-left: auto; margin-right: auto;">
-        Explora los proyectos más destacados de nuestra institución de los años 2023 y 2024. Estos trabajos representan
-        la excelencia académica y la innovación.
-      </p>
-
-      <div class="works-grid">
-        <div class="work-card">
-          <span class="icon">🔬</span>
-          <h3>Estudio de Impacto Ambiental Urbano (2023)</h3>
-          <p>Análisis de la calidad del aire y sus efectos en la salud en áreas urbanas de la región, destacando
-            soluciones sostenibles.</p>
-          <a href="/docs/trabajo_2023_1.pdf" target="_blank" rel="noopener noreferrer" class="view-button">Ver PDF</a>
+    <header class="header">
+        <div class="header-content">
+            <img src="images/logo.png" alt="Logo Plantillas de Investigación" class="logo-header"> 
+            <button class="theme-toggle" onclick="toggleTheme()" aria-label="Cambiar tema">
+                <span class="theme-icon">🌙</span>
+            </button>
         </div>
+    </header>
 
-        <div class="work-card">
-          <span class="icon">📚</span>
-          <h3>Innovación Pedagógica en Educación Superior (2023)</h3>
-          <p>Investigación sobre nuevas metodologías de enseñanza y aprendizaje aplicadas en programas universitarios.
-          </p>
-          <a href="/docs/trabajo_2023_2.pdf" target="_blank" rel="noopener noreferrer" class="view-button">Ver PDF</a>
+    <div class="background-animation" id="backgroundAnimation"></div>
+
+    <main class="contenedor">
+        <h1 class="fade-in">Bienvenido a la página de</h1>
+        <h1 class="fade-in highlight-text">Metodología de la Investigación</h1>
+
+        <p class="fade-in" style="font-size: 1.2rem; color: var(--text-secondary); margin: 2rem 0; max-width: 600px;">
+            Descubre nuestra colección de plantillas profesionales diseñadas para facilitar tus proyectos de investigación
+            académica en nuestra institución.
+        </p>
+
+        <button class="botonp fade-in" onclick="window.location.href='plantillas.html'">
+            Ver Plantillas Disponibles
+        </button>
+        <button class="botonp fade-in" onclick="window.location.href='docente.html'">
+            Ver perfil del docente
+        </button>
+
+        <section class="featured-works-section fade-in">
+            
+        </section>
+    </main>
+
+    <button class="admin-login-button" id="openAdminModal" title="Acceso Docente">🔑</button>
+
+    <div id="adminModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal()">&times;</span>
+            <h2>Acceso Docente</h2>
+            <p>Introduce la contraseña de administrador para subir archivos.</p>
+            <form id="adminLoginForm">
+                <label for="adminPassword">Contraseña:</label>
+                <input type="password" id="adminPassword" required>
+                <button type="submit" id="loginSubmitBtn">Iniciar Sesión</button>
+                <p id="authMessage" class="auth-message" style="display: none;"></p>
+            </form>
         </div>
+    </div>
 
-        <div class="work-card">
-          <span class="icon">💻</span>
-          <h3>Desarrollo de IA para Optimización Logística (2024)</h3>
-          <p>Aplicación de algoritmos de inteligencia artificial para mejorar la eficiencia en cadenas de suministro
-            locales.</p>
-          <a href="/docs/trabajo_2024_1.pdf" target="_blank" rel="noopener noreferrer" class="view-button">Ver PDF</a>
-        </div>
+    <script>
+        // Lógica del Modal
+        const modal = document.getElementById('adminModal');
+        const openBtn = document.getElementById('openAdminModal');
+        const closeSpan = document.getElementsByClassName('close-button')[0];
+        const loginForm = document.getElementById('adminLoginForm');
+        const passwordInput = document.getElementById('adminPassword');
+        const message = document.getElementById('authMessage');
+        const loginBtn = document.getElementById('loginSubmitBtn');
 
-        <div class="work-card">
-          <span class="icon">🌱</span>
-          <h3>Agricultura Sostenible y Biotecnología (2024)</h3>
-          <p>Estudio sobre técnicas biotecnológicas para el cultivo de alimentos orgánicos y su impacto en la
-            sostenibilidad.</p>
-          <a href="/docs/trabajo_2024_2.pdf" target="_blank" rel="noopener noreferrer" class="view-button">Ver PDF</a>
-        </div>
-      </div>
-    </section>
-  </main>
+        openBtn.onclick = function() {
+            modal.style.display = "flex";
+            passwordInput.focus();
+        }
 
-  <script src="js/main.js"></script>
+        function closeModal() {
+            modal.style.display = "none";
+            message.style.display = "none";
+            message.textContent = "";
+            passwordInput.value = ""; // Limpiar la contraseña
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+
+        // Lógica de Autenticación
+        loginForm.addEventListener('submit', handleLogin);
+
+        async function handleLogin(event) {
+            event.preventDefault();
+            
+            const password = passwordInput.value;
+            message.style.display = 'none';
+            message.textContent = '';
+            loginBtn.disabled = true;
+
+            try {
+                // Llamamos a /api/auth.js con la contraseña en el header
+                const response = await fetch('/api/auth', {
+                    method: 'POST',
+                    headers: {
+                        'X-Admin-Password': password, // Clave de seguridad en el encabezado
+                        'Content-Type': 'application/json' 
+                    },
+                    // No necesitamos body ya que la contraseña va en el header
+                });
+
+                if (response.ok) {
+                    // Si la contraseña es correcta 200
+                    message.textContent = "✅ Acceso concedido. Redirigiendo...";
+                    message.style.color = 'green';
+                    message.style.display = 'block';
+                    
+                    // Redirigir a la página de subida/administración
+                    setTimeout(() => {
+                        window.location.href = 'profegian.html'; 
+                    }, 1000); 
+
+                } else {
+                    // Si la contraseña es incorrecta 401
+                    const errorData = await response.json();
+                    message.textContent = ` ${errorData.error || 'Contraseña incorrecta.'}`;
+                    message.style.color = 'red';
+                    message.style.display = 'block';
+                }
+            } catch (error) {
+                console.error('Error de red al autenticar:', error);
+                message.textContent = 'Error de conexión con el servidor.';
+                message.style.color = 'red';
+                message.style.display = 'block';
+            } finally {
+                loginBtn.disabled = false;
+            }
+        }
+    </script>
+    <script src="js/main.js"></script>
 </body>
 
 </html>
