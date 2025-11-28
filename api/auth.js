@@ -1,4 +1,4 @@
-// /api/auth.js
+
 /**
  * Función modular para validar la contraseña del profesor.
  * @param {string} password - La contraseña proporcionada por el cliente.
