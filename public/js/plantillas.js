@@ -1,33 +1,75 @@
 // public/js/plantillas.js
 
 // ========================================
-// 1. UTILIDAD: GENERAR CARD DE PDF (Usada por main.js)
+// 1. UTILIDAD: GENERAR CARD DE PDF (Usada por main.js para vista pública)
 // ========================================
 
 /**
  * Genera el elemento HTML para la tarjeta de un PDF en la vista principal.
- * @param {object} pdf - Objeto PDF con propiedades {id, nombre, url, fecha}.
+ * @param {object} pdf - Objeto PDF con propiedades {id, nombre, url, created_at}.
  * @returns {HTMLElement} - El elemento div de la tarjeta.
  */
 export function createPdfCard(pdf) {
-    // Si la fecha existe, la formateamos. Si no, usamos una cadena vacía.
-    const date = pdf.fecha ? new Date(pdf.fecha).toLocaleDateString() : 'Fecha desconocida';
+    // Usamos 'created_at' de la DB Supabase
+    const date = pdf.created_at ? new Date(pdf.created_at).toLocaleDateString() : 'Fecha desconocida';
     
     const card = document.createElement('div');
-    card.className = 'work-card'; 
-    card.setAttribute('data-id', pdf.id); 
+    card.className = 'work-card'; 
+    card.setAttribute('data-id', pdf.id); 
     
     card.innerHTML = `
         <span class="icon">📄</span>
         <h3>${pdf.nombre}</h3>
-        <p>Documento subido el ${date}.</p> 
+        <p>Documento subido el ${date}.</p> 
         <a href="${pdf.url}" target="_blank" rel="noopener noreferrer" class="view-button">Ver PDF</a>
     `;
     return card;
 }
 
 // ========================================
-// 2. UTILIDAD: MOSTRAR MENSAJES DE ESTADO (Usada por docente.js)
+// 2. UTILIDAD: GENERAR CARD DE GESTIÓN (Usada por docente.js)
+// ========================================
+
+/**
+ * Genera el elemento HTML para la tarjeta de gestión en el panel docente.
+ * Incluye un botón para eliminar.
+ * @param {object} pdf - Objeto PDF con propiedades {id, nombre, url, created_at}.
+ * @param {function} deleteHandler - Función de callback para manejar el borrado.
+ * @returns {HTMLElement} - El elemento div de la tarjeta de gestión.
+ */
+export function createAdminPdfCard(pdf, deleteHandler) {
+    const date = pdf.created_at ? new Date(pdf.created_at).toLocaleDateString() : 'Fecha desconocida';
+    const filePath = pdf.url.split('/').pop(); // Extrae el path de Storage para borrar
+
+    const card = document.createElement('div');
+    card.className = 'work-card admin-card';
+    card.setAttribute('data-id', pdf.id);
+
+    card.innerHTML = `
+        <h3>${pdf.nombre}</h3>
+        <p>ID: ${pdf.id}</p>
+        <p class="metadata">Subido el: ${date}</p>
+        <div class="card-actions">
+            <a href="${pdf.url}" target="_blank" class="btn-view">Ver PDF</a>
+            <button class="btn-delete" data-id="${pdf.id}">Eliminar</button>
+        </div>
+    `;
+
+    // 🔨 Configurar el botón de eliminar
+    card.querySelector('.btn-delete').addEventListener('click', () => {
+        // Llama al manejador de borrado en docente.js
+        deleteHandler(
+            pdf.id,             // ID de la base de datos
+            filePath,           // Nombre/ruta del archivo en Storage
+            card                // El elemento HTML para borrarlo
+        );
+    });
+
+    return card;
+}
+
+// ========================================
+// 3. UTILIDAD: MOSTRAR MENSAJES DE ESTADO (Usada por docente.js)
 // ========================================
 
 /**
@@ -44,7 +86,8 @@ export function showMessage(elementId, type, text) {
             messageDiv.textContent = "";
             return;
         }
-        messageDiv.className = `message ${type}`;
+        // Usamos la clase para estilos (debes tener estilos CSS definidos)
+        messageDiv.className = `message ${type}`; 
         messageDiv.textContent = text;
         messageDiv.style.display = 'block';
     }
@@ -52,7 +95,7 @@ export function showMessage(elementId, type, text) {
 
 
 // ========================================
-// 3. UTILIDAD: CONFIRMACIÓN DE DESCARGA
+// 4. UTILIDAD: CONFIRMACIÓN DE DESCARGA
 // ========================================
 
 // Mantenemos la inyección de estilos para las animaciones, ya que es local a esta funcionalidad.
