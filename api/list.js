@@ -11,11 +11,11 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method Not Allowed' });
   }
 
-  try {
+  try {
     const { data, error } = await supabase
       .from('pdfs') // Nombre de la tabla
-      // 🚨 CORRECCIÓN 2: Seleccionar el nuevo campo file_path
-      .select('id, nombre, url, file_path') 
+      // Incluir *todos* los campos de la tabla
+      .select('id, created_at, nombre, url, fecha, file_path') 
       .order('id', { ascending: false });
 
     if (error) {
@@ -32,3 +32,4 @@ export default async function handler(req, res) {
     res.status(500).json({ error: err.message || 'A server error occurred.' });
   }
 }
+
