@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input type="file" id="file" />
+    <button onclick="upload()">Subir Archivo</button>
+    
+    <script>
+        async function upload() {
+            const file = document.getElementById("file").files[0];
+            const base64 = await toBase64(file);
+
+            const res = await fetch("/api/upload", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    filename: file.name,
+                    content: base64.split(",")[1],
+                }),
+            });
+
+            const data = await res.json();
+            alert("Subido: " + data.url);
+        }
+
+        function toBase64(file) {
+            return new Promise(resolve => {
+                const reader = new FileReader();
+                reader.onload = () => resolve(reader.result);
+                reader.readAsDataURL(file);
+            });
+        }
+    </script>
+</body>
+</html>

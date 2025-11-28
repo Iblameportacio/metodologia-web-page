@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Perfil del Docente - Información y contacto">
+    <meta name="keywords" content="docente, perfil, información, contacto, metodología, investigación">
+    <title>Perfil del Docente</title>
+    <link rel="stylesheet" href="css/estilos.css">
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+</head>
+
+<body>
+    <!-- Preloader -->
+    <div class="preloader" id="preloader">
+        <div class="spinner"></div>
+        <p>Cargando...</p>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <img src="images/logo.png" alt="Logo Institucional" class="logo-header"
+                onclick="window.location.href='/index.html'" style="cursor: pointer;">
+            <button class="theme-toggle" onclick="toggleTheme()" aria-label="Cambiar tema">
+                <span class="theme-icon">🌙</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Animación de fondo -->
+    <div class="background-animation" id="backgroundAnimation"></div>
+
+    <!-- Contenido principal -->
+    <main class="contenedor">
+        <h1 class="fade-in highlight-text">Gian Montenegro Mendoza</h1>
+        <p class="fade-in"
+            style="font-size: 1.3rem; color: var(--text-secondary); margin: 1rem 0 2rem; max-width: 700px; text-align: center; font-weight: 500;">
+            📚 Docente de Metodología de la Investigación
+        </p>
+
+        <!-- Sección de perfil -->
+        <div class="profile-section fade-in">
+            <div class="profile-header">
+                <div class="profile-images">
+                    <img src="images/fhgew.png" alt="Imagen de perfil del docente" class="profile-image">
+                </div>
+
+                <p
+                    style="font-size: 1.1rem; color: var(--text-secondary); max-width: 600px; margin: 0 auto; line-height: 1.7;">
+                    Bienvenido al perfil del docente encargado de guiarte en tu proyecto de investigación. Con una
+                    sólida experiencia en el campo académico, mi objetivo es brindarte todas las herramientas y
+                    conocimientos necesarios para que desarrolles un trabajo de investigación de alta calidad y rigor
+                    científico.
+                </p>
+            </div>
+
+            <div class="profile-content">
+                <div class="info-card">
+                    <h3><span class="icon">💼</span>Experiencia Profesional</h3>
+                    <ul>
+                        <li><strong>15 años</strong> de experiencia docente universitaria</li>
+                        <li><strong>Director de Investigación</strong> - Facultad de Educación (2019-2023)</li>
+                        <li><strong>Coordinador de Tesis</strong> - Programa de Posgrado (2016-2019)</li>
+                        <li><strong>Investigador Principal</strong> - Múltiples proyectos institucionales</li>
+                    </ul>
+                </div>
+
+                <div class="info-card">
+                    <h3><span class="icon">📊</span>Especialidades</h3>
+                    <ul>
+                        <li>Metodología de la Investigación Cuantitativa y Cualitativa</li>
+                        <li>Diseño de Instrumentos de Investigación</li>
+                        <li>Análisis Estadístico con SPSS y R</li>
+                        <li>Redacción Académica y Científica</li>
+                        <li>Evaluación de Proyectos de Investigación</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sección de logros -->
+        <div class="achievements-section fade-in">
+            <h3 style="color: var(--text-primary); margin-bottom: 1rem;">🏆 Logros y Reconocimientos</h3>
+            <div class="achievements-grid">
+                <div class="achievement-item">
+                    <span class="achievement-number">85+</span>
+                    <span class="achievement-label">Tesis Dirigidas</span>
+                </div>
+                <div class="achievement-item">
+                    <span class="achievement-number">25</span>
+                    <span class="achievement-label">Artículos Publicados</span>
+                </div>
+                <div class="achievement-item">
+                    <span class="achievement-number">12</span>
+                    <span class="achievement-label">Proyectos de Investigación</span>
+                </div>
+                <div class="achievement-item">
+                    <span class="achievement-number">5</span>
+                    <span class="achievement-label">Premios Académicos</span>
+                </div>
+            </div>
+        </div>
+
+        <a href="javascript:history.back()" class="back-button fade-in">
+            ← Regresar
+        </a>
+    </main>
+
+    <script src="js/docente.js"></script>
+</body>
+
+</html>
