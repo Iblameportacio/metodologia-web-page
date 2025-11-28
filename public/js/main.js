@@ -2,7 +2,7 @@
 
 // Importación de módulos auxiliares
 // Asegúrate de que createPdfCard EXISTE y usa 'export' en plantillas.js.
-import { createPdfCard } from './plantillas.js'; 
+import { createPublicPdfCard } from './plantillas.js';
 
 // ========================================
 // GESTIÓN DEL TEMA (CLARO/OSCURO)
@@ -98,7 +98,7 @@ function listenSystemThemeChanges() {
 }
 
 // ========================================
-// 📊 CARGA DINÁMICA DE PDFS (/api/list)
+// CARGA DINÁMICA DE PDFS (/api/list)
 // ========================================
 
 async function fetchPdfs() {
@@ -119,10 +119,10 @@ async function fetchPdfs() {
         }
 
         pdfs.forEach(pdf => {
-            // Usa la función importada de plantillas.js
-            const card = createPdfCard(pdf); 
-            listContainer.appendChild(card);
-        });
+            // Usa la función importada de plantillas.js
+            const card = createPublicPdfCard(pdf);
+            listContainer.appendChild(card);
+        });
 
     } catch (error) {
         console.error('Error al obtener la lista de PDFs:', error);
@@ -131,7 +131,7 @@ async function fetchPdfs() {
 }
 
 // ========================================
-// 🔑 LÓGICA DE AUTENTICACIÓN DOCENTE
+// LÓGICA DE AUTENTICACIÓN DOCENTE
 // ========================================
 
 function setupAuthModal() {
@@ -189,10 +189,10 @@ async function handleLogin(event) {
         });
 
         if (response.ok) {
-            // 🔑 SOLUCIÓN CRÍTICA: Guardar la contraseña en sesión si el login es exitoso
+            // SOLUCIÓN CRÍTICA: Guardar la contraseña en sesión si el login es exitoso
             sessionStorage.setItem('professor_password', password); 
             
-            message.textContent = "✅ Acceso concedido. Redirigiendo a profeGian...";
+            message.textContent = "Acceso concedido. Redirigiendo a profeGian...";
             message.style.color = 'green';
             message.style.display = 'block';
             
@@ -203,7 +203,7 @@ async function handleLogin(event) {
 
         } else {
             const errorData = await response.json();
-            message.textContent = `❌ ${errorData.error || 'Contraseña incorrecta.'}`;
+            message.textContent = ` ${errorData.error || 'Contraseña incorrecta.'}`;
             message.style.color = 'red';
             message.style.display = 'block';
             // Asegurarse de limpiar la sesión si falla
@@ -211,7 +211,7 @@ async function handleLogin(event) {
         }
     } catch (error) {
         console.error('Error de red al autenticar:', error);
-        message.textContent = '❌ Error de conexión con el servidor.';
+        message.textContent = ' Error de conexión con el servidor.';
         message.style.color = 'red';
         message.style.display = 'block';
     } finally {
@@ -236,3 +236,4 @@ document.addEventListener('DOMContentLoaded', function() {
     fetchPdfs();
     setupAuthModal();
 });
+
