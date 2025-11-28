@@ -6,7 +6,7 @@ const supabaseUrl = process.env.SUPABASE_URL;
 const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY; 
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-const BUCKET_NAME = 'documentos';
+const BUCKET_NAME = 'proyectos-institucionales';
 const TABLE_NAME = 'pdfs';
 
 export default async (req, res) => {
@@ -55,5 +55,6 @@ export default async (req, res) => {
         res.status(500).json({ error: err.message || 'Error interno del servidor durante la eliminación.' });
     }
 };
+
 
 
