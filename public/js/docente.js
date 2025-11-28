@@ -1,11 +1,9 @@
-// public/js/docente.js
-
-// Importación para crear las tarjetas (Asegúrate de que plantillas.js tiene la función createAdminPdfCard)
-// ASUMO que necesitas una función similar a createPdfCard pero con el botón de borrar. 
-import { createAdminPdfCard } from './plantillas.js'; 
+// Importación CRÍTICA para crear la interfaz de gestión.
+// ¡Asegúrate de que createAdminPdfCard EXISTE y usa 'export' en plantillas.js!
+import { createAdminPdfCard } from './plantillas.js'; 
 
 // ========================================
-// 🔑 VERIFICACIÓN DE AUTENTICACIÓN
+// VERIFICACIÓN DE AUTENTICACIÓN
 // ========================================
 
 function checkAuthAndRedirect() {
@@ -13,12 +11,12 @@ function checkAuthAndRedirect() {
     if (!password) {
         // Si no hay contraseña en la sesión, redirigir al login
         alert('Acceso no autorizado. Por favor, inicie sesión.');
-        window.location.href = 'index.html'; 
+        window.location.href = 'index.html'; 
     }
 }
 
 // ========================================
-// 📤 LÓGICA DE SUBIDA DE PDFS (/api/upload)
+// LÓGICA DE SUBIDA DE PDFS (/api/upload)
 // ========================================
 
 function setupUploadForm() {
@@ -34,24 +32,25 @@ async function handleUpload(event) {
     const pdfFile = document.getElementById('pdfFile').files[0];
     const uploadMessage = document.getElementById('uploadMessage');
     const professorPassword = sessionStorage.getItem('professor_password');
-    const documentName = document.getElementById('pdfName').value.trim(); // Capturamos el nuevo campo
+    const documentName = document.getElementById('pdfName').value.trim(); // Nombre público
+    const submitUploadBtn = document.getElementById('submitUploadBtn');
 
     uploadMessage.textContent = '';
     uploadMessage.className = 'message-status';
     
     if (!professorPassword) {
-        uploadMessage.textContent = '❌ Error: Sesión expirada. Vuelva a iniciar sesión.';
+        uploadMessage.textContent = 'Error: Sesión expirada. Vuelva a iniciar sesión.';
         return;
     }
 
     if (!pdfFile || !documentName) {
-        uploadMessage.textContent = '❌ Por favor, ingrese un nombre y seleccione un archivo PDF.';
+        uploadMessage.textContent = 'Por favor, ingrese un nombre y seleccione un archivo PDF.';
         return;
     }
     
     // Iniciar carga
     uploadMessage.textContent = 'Cargando... No cierre la página.';
-    document.getElementById('submitUploadBtn').disabled = true;
+    submitUploadBtn.disabled = true;
 
     const formData = new FormData();
     formData.append('nombre', documentName); // Enviamos el nombre legible
@@ -61,54 +60,56 @@ async function handleUpload(event) {
         const response = await fetch('/api/upload', {
             method: 'POST',
             headers: {
+                // 🛡️ ENVIAMOS LA CONTRASEÑA EN EL HEADER PARA AUTENTICACIÓN
                 'X-Professor-Password': professorPassword,
-                // El navegador maneja Content-Type: multipart/form-data automáticamente
             },
             body: formData,
         });
 
-        const result = await response.json();
+        // Intentamos leer el JSON, incluso si hay error 400/500
+        const result = await response.json(); 
 
         if (response.ok) {
-            uploadMessage.textContent = `✅ Documento "${result.nombre}" subido y registrado exitosamente.`;
+            uploadMessage.textContent = `Documento "${result.nombre}" subido y registrado exitosamente.`;
             uploadMessage.className = 'message-status success';
             
             // Limpiar campos después del éxito
-            document.getElementById('pdfName').value = ''; 
-            document.getElementById('pdfFile').value = ''; 
+            document.getElementById('pdfName').value = ''; 
+            document.getElementById('pdfFile').value = ''; 
             
-            // Actualizar la lista de PDFs
-            fetchAdminPdfs(); 
+            // Actualizar la lista de PDFs para ver el nuevo archivo
+            fetchAdminPdfs(); 
 
         } else {
-            uploadMessage.textContent = `❌ Error al subir: ${result.error || response.statusText}`;
+            // Maneja errores 400/401/500 enviados por el backend (Vercel)
+            uploadMessage.textContent = `Error al subir: ${result.error || response.statusText}`;
             uploadMessage.className = 'message-status error';
         }
     } catch (error) {
         console.error('Error de red al subir:', error);
-        uploadMessage.textContent = '❌ Error de conexión con el servidor.';
+        uploadMessage.textContent = 'Error de conexión con el servidor. (Verifique el log de Vercel)';
         uploadMessage.className = 'message-status error';
     } finally {
-        document.getElementById('submitUploadBtn').disabled = false;
+        submitUploadBtn.disabled = false;
     }
 }
 
 
 // ========================================
-// 📊 LISTADO DE PDFS ADMIN (/api/list & /api/delete)
+// LISTADO DE PDFS ADMIN (/api/list & /api/delete)
 // ========================================
 
 async function fetchAdminPdfs() {
     const listContainer = document.getElementById('adminPdfListContainer');
     if (!listContainer) return;
-    listContainer.innerHTML = 'Cargando documentos de gestión...'; 
+    listContainer.innerHTML = 'Cargando documentos de gestión...'; 
 
     try {
         // Usamos /api/list (Endpoint público) para obtener la lista
         const response = await fetch('/api/list');
         const pdfs = await response.json();
         
-        listContainer.innerHTML = ''; 
+        listContainer.innerHTML = ''; 
 
         if (pdfs.length === 0) {
             listContainer.innerHTML = '<p>No hay documentos para gestionar.</p>';
@@ -116,20 +117,20 @@ async function fetchAdminPdfs() {
         }
 
         pdfs.forEach(pdf => {
-            // ASUMO que createAdminPdfCard recibe el PDF y un manejador de borrado
-            const card = createAdminPdfCard(pdf, handleDelete); 
+            // Usamos la función importada para crear la tarjeta con el botón de borrar
+            const card = createAdminPdfCard(pdf, handleDelete); 
             listContainer.appendChild(card);
         });
 
     } catch (error) {
         console.error('Error al obtener la lista de PDFs para admin:', error);
-        listContainer.innerHTML = `<p class="error-message">Error al cargar la lista de documentos.</p>`;
+        listContainer.innerHTML = `<p class="error-message">Error al cargar la lista de documentos. (Verifique RLS/ANON Key)</p>`;
     }
 }
 
 
-async function handleDelete(id, fileName, cardElement) {
-    if (!confirm(`¿Estás seguro de que deseas eliminar el archivo con ID ${id} (Esto es permanente)?`)) {
+async function handleDelete(id, file_path_storage, cardElement) {
+    if (!confirm(`¿Estás seguro de que deseas eliminar el archivo ID ${id}? Esto borrará el archivo y el registro.`)) {
         return;
     }
     
@@ -146,13 +147,12 @@ async function handleDelete(id, fileName, cardElement) {
                 'Content-Type': 'application/json',
                 'X-Professor-Password': professorPassword, // Autenticación
             },
-            body: JSON.stringify({ id: id, file_name: fileName }), // file_name debe ser el path completo que guardó Supabase
+            body: JSON.stringify({ id: id, file_path: file_path_storage }), // Pasamos el ID de DB y el path de Storage
         });
 
         if (response.ok) {
             alert(`Documento ID ${id} eliminado exitosamente.`);
-            cardElement.remove(); // Elimina la tarjeta del DOM
-            // Podrías llamar a fetchAdminPdfs() para refrescar todo si es necesario
+            cardElement.remove(); // Elimina la tarjeta del DOM sin recargar
         } else {
             const errorData = await response.json();
             alert(`Error al eliminar: ${errorData.error || response.statusText}`);
@@ -169,19 +169,13 @@ async function handleDelete(id, fileName, cardElement) {
 // ========================================
 
 document.addEventListener('DOMContentLoaded', function() {
-    // 1. Verificar Sesión antes de hacer cualquier cosa
-    checkAuthAndRedirect(); 
-    
-    // 2. Inicializar la UI (Mantienes estas funciones, solo las he reordenado)
-    hidePreloader();
-    loadTheme();
-    createBackgroundAnimation();
-    animateCounters();
-    initFadeInAnimations();
-    detectSystemTheme();
-    listenSystemThemeChanges();
-
-    // 3. Inicializar Lógica de Negocio
+    // 1. Verificar Sesión
+    checkAuthAndRedirect(); 
+     
+    // 2. Inicializar Lógica de Negocio
     setupUploadForm();
     fetchAdminPdfs();
+    
+    // NOTA: Las funciones de tema/animación (hidePreloader, loadTheme, etc.) deben estar definidas
+    //       en otro script si las quieres mantener, ya que no están en el código que me enviaste.
 });
