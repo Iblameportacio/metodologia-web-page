@@ -1,8 +1,7 @@
-// /api/delete.js
 import { createClient } from '@supabase/supabase-js';
 import { validateProfessorPassword } from './auth.js';
 
-// 🔑 USAMOS LA CLAVE DE ROL DE SERVICIO para eliminar
+// USAMOS LA CLAVE DE ROL DE SERVICIO para eliminar
 const supabaseUrl = process.env.SUPABASE_URL;
 const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY; 
 const supabase = createClient(supabaseUrl, supabaseKey);
@@ -56,3 +55,4 @@ export default async (req, res) => {
         res.status(500).json({ error: err.message || 'Error interno del servidor durante la eliminación.' });
     }
 };
+
