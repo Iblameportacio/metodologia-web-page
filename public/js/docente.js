@@ -1,4 +1,4 @@
-import { createAdminPdfCard } from './plantillas.js'; 
+import { createAdminPdfCard, hidePreloader } from './plantillas.js'; // ⬅️ CORRECCIÓN: Se importa hidePreloader
 
 // ========================================
 // VERIFICACIÓN DE AUTENTICACIÓN
@@ -9,7 +9,7 @@ function checkAuthAndRedirect() {
     if (!password) {
         // Si no hay contraseña en la sesión, redirigir al login
         alert('Acceso no autorizado. Por favor, inicie sesión.');
-        window.location.href = 'index.html'; 
+        window.location.href = 'index.html';    
     }
 }
 
@@ -72,11 +72,11 @@ async function handleUpload(event) {
             uploadMessage.className = 'message-status success';
             
             // Limpiar campos después del éxito
-            document.getElementById('pdfName').value = ''; 
-            document.getElementById('pdfFile').value = ''; 
+            document.getElementById('pdfName').value = ''; 
+            document.getElementById('pdfFile').value = ''; 
             
             // Actualizar la lista de PDFs para ver el nuevo archivo
-            fetchAdminPdfs(); 
+            fetchAdminPdfs(); 
 
         } else {
             // Maneja errores 400/401/500 enviados por el backend (Vercel)
@@ -98,60 +98,60 @@ async function handleUpload(event) {
 // ========================================
 
 async function fetchAdminPdfs() {
-    const listContainer = document.getElementById('adminPdfListContainer');
-    if (!listContainer) return;
-    listContainer.innerHTML = 'Cargando documentos de gestión...'; 
+    const listContainer = document.getElementById('adminPdfListContainer');
+    if (!listContainer) return;
+    listContainer.innerHTML = 'Cargando documentos de gestión...'; 
 
-    try {
-        const response = await fetch('/api/list');
-        
-        // 🚨 MANEJO DE ERROR 500 EN LISTADO: Si no es OK, no intentes leer JSON, usa statusText
-        if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        
-        const pdfs = await response.json();
-        
-        listContainer.innerHTML = ''; 
+    try {
+        const response = await fetch('/api/list');
+        
+        // 🚨 MANEJO DE ERROR 500 EN LISTADO: Si no es OK, no intentes leer JSON, usa statusText
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        
+        const pdfs = await response.json();
+        
+        listContainer.innerHTML = ''; 
 
-        if (pdfs.length === 0) {
-            listContainer.innerHTML = '<p>No hay documentos para gestionar.</p>';
-            return;
-        }
+        if (pdfs.length === 0) {
+            listContainer.innerHTML = '<p>No hay documentos para gestionar.</p>';
+            return;
+        }
 
-        pdfs.forEach(pdf => {
-            // Asegúrate de que tu función createAdminPdfCard reciba pdf.file_path
-            const card = createAdminPdfCard(pdf, handleDelete); 
-            listContainer.appendChild(card);
-        });
+        pdfs.forEach(pdf => {
+            // Asegúrate de que tu función createAdminPdfCard reciba pdf.file_path
+            const card = createAdminPdfCard(pdf, handleDelete); 
+            listContainer.appendChild(card);
+        });
 
-    } catch (error) {
-        console.error('Error al obtener la lista de PDFs para admin:', error);
-        listContainer.innerHTML = `<p class="error-message">Error al cargar la lista de documentos. (Verifique RLS/ANON Key o logs de Vercel)</p>`;
-    }
+    } catch (error) {
+        console.error('Error al obtener la lista de PDFs para admin:', error);
+        listContainer.innerHTML = `<p class="error-message">Error al cargar la lista de documentos. (Verifique RLS/ANON Key o logs de Vercel)</p>`;
+    }
 }
 
-async function handleDelete(id, filePath, cardElement) {  // Cambiado nombre_archivo a filePath
-    if (!confirm(`¿Estás seguro de que deseas eliminar el archivo ID ${id}? Esto borrará el archivo y el registro.`)) {
-        return;
-    }
-    
-    const professorPassword = sessionStorage.getItem('professor_password');
-    if (!professorPassword) {
-        alert('Sesión expirada. No se pudo borrar el archivo.');
-        return;
-    }
+async function handleDelete(id, filePath, cardElement) { // Cambiado nombre_archivo a filePath
+    if (!confirm(`¿Estás seguro de que deseas eliminar el archivo ID ${id}? Esto borrará el archivo y el registro.`)) {
+        return;
+    }
+    
+    const professorPassword = sessionStorage.getItem('professor_password');
+    if (!professorPassword) {
+        alert('Sesión expirada. No se pudo borrar el archivo.');
+        return;
+    }
 
-    try {
-        const response = await fetch('/api/delete', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-Professor-Password': professorPassword,
-            },
-            // 🚨 CORRECCIÓN 4: Enviamos el file_path que obtuvimos del listado
-            body: JSON.stringify({ id: id, file_path: filePath }),
-        });
+    try {
+        const response = await fetch('/api/delete', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Professor-Password': professorPassword,
+            },
+            // 🚨 CORRECCIÓN 4: Enviamos el file_path que obtuvimos del listado
+            body: JSON.stringify({ id: id, file_path: filePath }),
+        });
 
         if (response.ok) {
             alert(`Documento ID ${id} eliminado exitosamente.`);
@@ -173,14 +173,12 @@ async function handleDelete(id, filePath, cardElement) {  // Cambiado nombre_ar
 
 document.addEventListener('DOMContentLoaded', function() {
     // 1. Verificar Sesión
-    checkAuthAndRedirect(); 
-     
+    checkAuthAndRedirect();    
+    
+    // 🚨 CORRECCIÓN FINAL: Ocultar la pantalla de carga (AÑADIDO)
+    hidePreloader();
+      
     // 2. Inicializar Lógica de Negocio
     setupUploadForm();
     fetchAdminPdfs();
-    
-    // NOTA: Las funciones de tema/animación (hidePreloader, loadTheme, etc.) deben estar definidas
-    //       en otro script si las quieres mantener, ya que no están en el código que me enviaste.
 });
-
-
