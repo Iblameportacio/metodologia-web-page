@@ -68,3 +68,22 @@ export function createAdminPdfCard(pdf, handleDeleteCallback) {
 
     return card;
 }
+
+
+// ========================================
+// UTILIDAD GLOBAL: PRELOADER 
+// Esta función debe estar en un módulo compartido para que main.js y docente.js la usen.
+// ========================================
+
+/**
+ * Oculta la pantalla de precarga (preloader) con una transición suave.
+ */
+export function hidePreloader() {
+    const preloader = document.getElementById('preloader');
+    if (!preloader) return;
+    preloader.style.opacity = '0';
+    // Espera 500ms (asumiendo tu transición CSS) antes de ocultar el display
+    setTimeout(() => {
+        preloader.style.display = 'none';
+    }, 500);
+}
